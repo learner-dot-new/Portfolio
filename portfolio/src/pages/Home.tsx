@@ -6,11 +6,21 @@ import Techinical from '../components/Techinical'
 
 const Home = () => {
   return (
-    <Box>
-      <HeroSection></HeroSection>
-      <ProjectCards></ProjectCards>
-      <Cociricular></Cociricular>
-      <Techinical></Techinical>
+    <Box sx={{ overflow: 'hidden' }}>
+      <HeroSection />
+      
+      {/* Divider between hero and projects */}
+      <Box className="divider-line" />
+      
+      <ProjectCards />
+      
+      <Box className="divider-line" sx={{ mx: { xs: '20px', md: '40px' } }} />
+      
+      <Techinical />
+      
+      <Box className="divider-line" sx={{ mx: { xs: '20px', md: '40px' } }} />
+      
+      <Cociricular />
     </Box>
   )
 }

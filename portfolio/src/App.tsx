@@ -5,18 +5,25 @@ import {Routes , Route} from 'react-router-dom'
 import Home from "./pages/Home"
 import Projects from './pages/Projects'
 import ProjectDetail from './pages/ProjectDetail'
+
 const App = () => {
   return (
-    <Box>
-      <NavBar></NavBar>
-      <Routes>
-        <Route path='/' element={<Home/>}></Route>
-        <Route path='/Projects' element={<Projects/>}></Route>
-        <Route path='/Projects/:id' element={<ProjectDetail/>}></Route>
-
-      </Routes>
-      
-      <Footer></Footer>
+    <Box sx={{
+      minHeight: '100vh',
+      bgcolor: 'background.default',
+      position: 'relative',
+    }}>
+      <NavBar />
+      <Box sx={{ 
+        animation: 'fadeIn 0.5s ease-out',
+      }}>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/Projects' element={<Projects/>}></Route>
+          <Route path='/Projects/:id' element={<ProjectDetail/>}></Route>
+        </Routes>
+      </Box>
+      <Footer />
     </Box>
   )
 }

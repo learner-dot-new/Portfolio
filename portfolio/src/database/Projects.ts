@@ -1,59 +1,57 @@
-export interface Projects {
+export interface Project {
     id: number;
     title: string;
     description: string;
     techStack: string[];
     githubLink: string;
     liveLink: string;
+    role: string;
+    highlights: string[];
 }
 
-export const projects: Projects[] = [
+export const projects: Project[] = [
 {
     id: 1,
-    title: "Demo1",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo1",
-    liveLink: "https://demo1.com"
+    title: "BaatKro — A Calling App",
+    description: "A full-stack real-time social platform with a React Native mobile app, Node.js/Express backend, and React admin dashboard.",
+    techStack: ["React Native", "Node.js", "Express", "WebRTC", "Socket.io", "MongoDB"],
+    githubLink: "https://github.com/pooniya22",
+    liveLink: "",
+    role: "Full-Stack Developer",
+    highlights: [
+        "Implemented peer-to-peer audio/video rooms using WebRTC and Socket.io",
+        "Built speaker/listener roles, private/paid/scheduled rooms, and Omegle-style random 1-on-1 matching",
+        "Developed complete social layer with follow system, real-time DMs, Google OAuth, OTP auth",
+        "Created a creator wallet system and admin panel for live moderation and analytics"
+    ]
 },
 {
     id: 2,
-    title: "Demo2",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo2",
-    liveLink: "https://demo2.com"
+    title: "Uber-like Ride Booking Web App",
+    description: "A full-stack ride-booking application with RESTful APIs for user authentication, ride requests, and data management.",
+    techStack: ["JavaScript", "Node.js", "Express.js", "MongoDB"],
+    githubLink: "https://github.com/pooniya22",
+    liveLink: "",
+    role: "Backend Developer",
+    highlights: [
+        "Designed RESTful APIs for user authentication, ride requests, and data management",
+        "Implemented OOP concepts and modular backend structure for scalability",
+        "Used data structures to manage ride data and optimize request handling"
+    ]
 },
 {
     id: 3,
-    title: "Demo3",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo3",
-    liveLink: "https://demo3.com"
-},
-{
-    id: 4,
-    title: "Demo4",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo4",
-    liveLink: "https://demo4.com"
-},
-{
-    id: 5,
-    title: "Demo5",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo5",
-    liveLink: "https://demo5.com"
-},
-{
-    id: 6,
-    title: "Demo6",
-    description: "lorem...",
-    techStack: ["MERN"],
-    githubLink: "https://github.com/demo6",
-    liveLink: "https://demo6.com"
+    title: "Zomato Integrated with Shorts",
+    description: "A responsive video-based food browsing interface with modular, component-based architecture following OOP principles.",
+    techStack: ["HTML", "CSS", "JavaScript"],
+    githubLink: "https://github.com/pooniya22",
+    liveLink: "",
+    role: "Frontend Developer",
+    highlights: [
+        "Developed a responsive video-based food browsing interface",
+        "Implemented modular, component-based architecture following OOP principles",
+        "Optimized rendering logic and UI interactions for performance",
+        "Applied problem-solving and algorithmic thinking for efficient data handling"
+    ]
 }
 ];

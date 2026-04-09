@@ -1,38 +1,57 @@
-export interface Activity {
+export interface Education {
     id: number;
-    title: string;
-    achievement: string;
-    description: string;
-    date: Date; // changed from Date to date
+    institution: string;
+    degree: string;
+    year: string;
+    score: string;
+    location: string;
 }
 
-export const activities: Activity[] = [
+export interface Publication {
+    id: number;
+    title: string;
+    journal: string;
+    authors: string;
+    paperId: string;
+    url: string;
+    date: string;
+}
+
+export const education: Education[] = [
 {
     id: 1,
-    title: "School",
-    achievement: "Something",
-    description: "kjdshf;la",
-    date: new Date("2020-02-12") // changed from Date to date
+    institution: "MAIT, Delhi",
+    degree: "B.Tech ECE",
+    year: "2023 – Present",
+    score: "GPA: 8.886",
+    location: "Delhi, India"
 },
 {
     id: 2,
-    title: "School",
-    achievement: "Something",
-    description: "kjdshf;la",
-    date: new Date("2020-02-12") // changed from Date to date
+    institution: "KV BSF Dabla, Jaisalmer",
+    degree: "Class 12th",
+    year: "2022",
+    score: "90.20%",
+    location: "Jaisalmer, Rajasthan"
 },
 {
     id: 3,
-    title: "School",
-    achievement: "Something",
-    description: "kjdshf;la",
-    date: new Date("2020-02-12") // changed from Date to date
-},
+    institution: "KV BSF Dabla, Jaisalmer",
+    degree: "Class 10th",
+    year: "2020",
+    score: "92.80%",
+    location: "Jaisalmer, Rajasthan"
+}
+];
+
+export const publications: Publication[] = [
 {
-    id: 4,
-    title: "School",
-    achievement: "Something",
-    description: "kjdshf;la",
-    date: new Date("2020-02-12") // changed from Date to date
+    id: 1,
+    title: "Overview of Li-Fi Technology",
+    journal: "IJERT",
+    authors: "ML Sharma, Sunil Mathur, Shreyanshkar Giri, Vijay Pooniya, Kunal Barwal, Anushka Jain, Liesha Gupta, Yuvraj Diwan",
+    paperId: "IJERTV14IS050023",
+    url: "https://www.ijert.org/over-view-of-li-fi-technology",
+    date: "May 2025"
 }
 ];
