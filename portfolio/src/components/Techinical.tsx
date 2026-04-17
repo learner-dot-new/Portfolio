@@ -8,15 +8,23 @@ interface SkillCategory {
 const skillData: SkillCategory[] = [
   {
     category: "Languages",
-    skills: ["Python", "Java", "C++", "JavaScript"],
+    skills: ["Python", "Java", "C++", "JavaScript", "TypeScript"],
   },
   {
     category: "Web Development",
-    skills: ["HTML", "CSS", "React", "Node.js", "Express.js"],
+    skills: ["HTML", "CSS", "React", "Next.js", "Node.js", "Express.js"],
+  },
+  {
+    category: "Mobile Development",
+    skills: ["React Native"],
   },
   {
     category: "Databases",
     skills: ["MySQL", "MongoDB"],
+  },
+  {
+    category: "Cloud & BaaS",
+    skills: ["Firebase", "Supabase"],
   },
   {
     category: "Developer Tools",

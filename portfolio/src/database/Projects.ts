@@ -53,5 +53,35 @@ export const projects: Project[] = [
         "Optimized rendering logic and UI interactions for performance",
         "Applied problem-solving and algorithmic thinking for efficient data handling"
     ]
+},
+{
+    id: 4,
+    title: "Google Auth — OTP Verification System",
+    description: "A secure authentication system that sends OTP via email using Google OAuth and Nodemailer, with server-side OTP generation, validation, and expiry handling.",
+    techStack: ["Node.js", "Express.js", "Nodemailer", "Google OAuth 2.0", "JavaScript"],
+    githubLink: "https://github.com/pooniya22",
+    liveLink: "",
+    role: "Backend Developer",
+    highlights: [
+        "Implemented OTP generation and email delivery using Nodemailer with Google OAuth 2.0",
+        "Built secure server-side OTP validation with expiry and rate-limiting logic",
+        "Designed RESTful API endpoints for sending and verifying OTPs",
+        "Handled edge cases like expired OTPs, invalid inputs, and retry limits"
+    ]
+},
+{
+    id: 5,
+    title: "DigiHero — Donation Platform",
+    description: "A full-stack donation website enabling users to contribute to causes with secure authentication via Google Auth, integrated payment gateway, and Supabase for real-time data storage.",
+    techStack: ["React", "Supabase", "Google Auth", "Payment Gateway", "JavaScript", "CSS"],
+    githubLink: "https://github.com/pooniya22",
+    liveLink: "",
+    role: "Full-Stack Developer",
+    highlights: [
+        "Integrated Google Authentication for secure user sign-in and session management",
+        "Implemented payment gateway for seamless and secure donation transactions",
+        "Used Supabase as the backend for real-time database, authentication, and storage",
+        "Built responsive UI with campaign listings, donation tracking, and user dashboards"
+    ]
 }
 ];

@@ -55,3 +55,23 @@ export const publications: Publication[] = [
     date: "May 2025"
 }
 ];
+
+export interface CoCurricular {
+    id: number;
+    title: string;
+    organization: string;
+    date: string;
+    grade: string;
+    description: string;
+}
+
+export const coCurriculars: CoCurricular[] = [
+{
+    id: 1,
+    title: "NCC 'C' Certificate",
+    organization: "National Cadet Corps (NCC)",
+    date: "February 2026",
+    grade: "B Grade",
+    description: "Successfully completed NCC C Certificate examination, demonstrating discipline, leadership, and commitment to national service."
+}
+];
