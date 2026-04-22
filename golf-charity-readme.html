@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalHeros — Architecture Blueprint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #064E3B;
+            --accent: #2563EB;
+            --bg: #FAF9F6;
+            --surface: #FFFFFF;
+            --border: #E5E7EB;
+            --text-main: #111827;
+            --text-muted: #4B5563;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 80px; text-align: center; }
+        .badge { background: #ECFDF5; color: var(--primary); padding: 8px 20px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border: 1px solid #D1FAE5; display: inline-block; margin-bottom: 24px; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 4.5rem; font-weight: 800; letter-spacing: -3px; line-height: 1; margin-bottom: 24px; color: var(--primary-dark); }
+        .hero-desc { font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; font-weight: 300; }
+
+        /* Bento Grid */
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+        .bento-item { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+
+        .span-12 { grid-column: span 12; }
+        .span-8 { grid-column: span 8; }
+        .span-4 { grid-column: span 4; }
+        .span-6 { grid-column: span 6; }
+
+        h2 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: var(--primary-dark); }
+        h2 span { background: var(--primary); color: #FFF; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+        /* Content */
+        p { color: var(--text-muted); margin-bottom: 15px; }
+        .code-block { background: #F3F4F6; border-radius: 12px; padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #1F2937; border: 1px solid var(--border); overflow-x: auto; margin-top: 20px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 16px; border-bottom: 2px solid var(--bg); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .pill { background: var(--bg); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-muted); border: 1px solid var(--border); }
+
+        /* Diagrams */
+        .dia-box { background: var(--bg); border-radius: 16px; padding: 40px; text-align: center; margin: 20px 0; border: 1px solid var(--border); }
+
+        @media (max-width: 1024px) {
+            .span-8, .span-4, .span-6 { grid-column: span 12; }
+            h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge">Architecture V2.1 Light</span>
+            <h1>DigitalHeros</h1>
+            <p class="hero-desc">State-of-the-art documentation for the golf-subscription and charity fundraising ecosystem.</p>
+        </header>
+
+        <div class="bento-grid">
+            <div class="bento-item span-4">
+                <h2><span>01</span> Tech Stack</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span class="pill">Next.js 16</span>
+                    <span class="pill">TypeScript</span>
+                    <span class="pill">Supabase</span>
+                    <span class="pill">PostgreSQL</span>
+                    <span class="pill">Nodemailer</span>
+                    <span class="pill">Vanilla CSS</span>
+                    <span class="pill">Stripe Sim</span>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.9rem;">Modern serverless architecture leveraging edge functions for global performance.</p>
+            </div>
+
+            <div class="bento-item span-8">
+                <h2><span>02</span> System Philosophy</h2>
+                <p>DigitalHeros balances high-frequency sports engagement with robust financial security. Every interaction is architected to ensure that while the user experience is "game-like", the underlying data (prizes and donations) is handled with absolute atomic integrity.</p>
+                <div class="code-block">
+                    <span style="color: #059669;">// Core Mission</span><br/>
+                    Export Const Platform = {<br/>
+                    &nbsp;&nbsp;Impact: "Charitable Fundraising",<br/>
+                    &nbsp;&nbsp;Engagement: "Golf Performance Tracking",<br/>
+                    &nbsp;&nbsp;Mechanism: "Weighted Draw Engine"<br/>
+                    }
+                </div>
+            </div>
+
+            <div class="bento-item span-12">
+                <h2><span>03</span> Data Modeling (ER-Diagram)</h2>
+                <div class="dia-box">
+                    <svg width="1000" height="280" viewBox="0 0 1000 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="50" width="180" height="120" rx="12" fill="#FFFFFF" stroke="#059669" stroke-width="2"/>
+                        <text x="140" y="85" text-anchor="middle" fill="#111827" font-weight="700">profiles</text>
+                        <text x="70" y="115" fill="#4B5563" font-size="10">id (PK) / roles / country</text>
+
+                        <path d="M230 110H330" stroke="#E5E7EB" stroke-width="2"/>
+
+                        <rect x="330" y="50" width="180" height="120" rx="12" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+                        <text x="420" y="85" text-anchor="middle" fill="#111827" font-weight="700">subscriptions</text>
+                        <text x="350" y="115" fill="#4B5563" font-size="10">user_id (FK) / plan / status</text>
+
+                        <path d="M510 110H610" stroke="#E5E7EB" stroke-width="2"/>
+
+                        <rect x="610" y="100" width="180" height="120" rx="12" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+                        <text x="700" y="135" text-anchor="middle" fill="#111827" font-weight="700">draws</text>
+                        <text x="630" y="165" fill="#4B5563" font-size="10">numbers[] / status / total_pool</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bento-item span-6">
+                <h2><span>04</span> Security (RLS) Policies</h2>
+                <p>Granular access control implemented at the database layer (PostgreSQL) using Row Level Security.</p>
+                <table>
+                    <thead>
+                        <tr><th>Table</th><th>Scoped Policy</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>profiles</td><td><code>auth.uid() = id</code></td></tr>
+                        <tr><td>scores</td><td><code>auth.uid() = user_id</code></td></tr>
+                        <tr><td>draws</td><td><code>status = 'published'</code> (Public)</td></tr>
+                        <tr><td>email_logs</td><td><code>profiles.role = 'admin'</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bento-item span-6">
+                <h2><span>05</span> Database Triggers</h2>
+                <p>Automated hooks that maintain state consistency without extra API calls.</p>
+                <div class="code-block" style="font-size: 0.8rem;">
+                    <span style="color: #6B7280;">-- Auto-sync account profile</span><br/>
+                    CREATE TRIGGER on_auth_user_created<br/>
+                    AFTER INSERT ON auth.users<br/>
+                    FOR EACH ROW EXECUTE FUNCTION handle_new_user();
+                </div>
+            </div>
+
+            <div class="bento-item span-12">
+                <h2><span>06</span> Business Logic Layer</h2>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;">
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin-bottom: 12px;">Draw Engine Algorithm</h4>
+                        <p style="font-size: 0.9rem;">The <code>generateAlgorithmicDraw()</code> function uses inverse frequency density to ensured a balanced payout distribution across participants.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin-bottom: 12px;">Email Notification Cycle</h4>
+                        <p style="font-size: 0.9rem;">Automated SMTP flows for over 12 unique event types, including OTP, Verification Status, and Win/Loss notifications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 100px; text-align: center; border-top: 1px solid var(--border); padding: 40px 0; color: var(--text-muted); font-size: 0.8rem;">
+            Copyright &copy; 2026 Vijay Pooniya • Built with Antigravity
+        </footer>
+    </div>
+</body>
+</html>

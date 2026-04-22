@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP System Architecture — Light Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #6366F1;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --text: #0F172A;
+            --text-dim: #64748B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 80px; border-left: 6px solid var(--primary); padding-left: 40px; }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: 4rem; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; }
+        .hero-desc { font-size: 1.25rem; color: var(--text-dim); max-width: 600px; font-weight: 300; }
+
+        .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .span-12 { grid-column: span 12; }
+        .span-6 { grid-column: span 6; }
+
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; margin-bottom: 30px; }
+        h2 span { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--primary); display: block; margin-bottom: 8px; }
+
+        /* Visualization */
+        .viz-box { background: #F1F5F9; border-radius: 16px; padding: 40px; margin: 20px 0; border: 1px solid var(--border); }
+        .flow { display: flex; align-items: center; justify-content: space-between; }
+        .node { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 12px; text-align: center; width: 150px; font-size: 0.85rem; font-weight: 600; }
+        .node.active { border-color: var(--primary); color: var(--primary); }
+        .arrow { color: var(--text-dim); }
+
+        /* Code & Tables */
+        .code { background: #1E293B; color: #E2E8F0; padding: 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: block; margin-top: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid var(--bg); font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); }
+        td { padding: 16px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .func { color: var(--primary); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+        @media (max-width: 900px) {
+            .bento { grid-template-columns: 1fr; }
+            .span-6 { grid-column: span 1; }
+            .flow { flex-direction: column; gap: 20px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SecureAuth.<br/><span style="color: var(--primary)">Verification Logic.</span></h1>
+            <p class="hero-desc">Detailed exploration of a 3-phase OTP registration ecosystem providing high-integrity identity verification.</p>
+        </header>
+
+        <div class="bento">
+            <div class="card span-12">
+                <h2><span>SECTION 01</span> Verification State Machine</h2>
+                <div class="viz-box">
+                    <div class="flow">
+                        <div class="node">Request Code</div>
+                        <div class="arrow">→</div>
+                        <div class="node active">Temp Record</div>
+                        <div class="arrow">→</div>
+                        <div class="node">User Validated</div>
+                        <div class="arrow">→</div>
+                        <div class="node">Permanent User</div>
+                    </div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.95rem;">The logic prevents "Dirty Writes" by requiring a verified status flag on the short-lived OTP record before permitting the final account password commitment.</p>
+            </div>
+
+            <div class="card span-6">
+                <h2><span>SECTION 02</span> Mongo TTL Implementation</h2>
+                <p>Ensures cryptographic codes automatically expire after 5 minutes at the hardware/database level.</p>
+                <code class="code">
+                    otpSchema.index({ "expiresAt": 1 }, { expireAfterSeconds: 0 });
+                </code>
+                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-dim);">This configuration leverages MongoDB's native cleanup thread, offloading security maintenance from the application layer to the data layer.</p>
+            </div>
+
+            <div class="card span-6">
+                <h2><span>SECTION 03</span> Security Protocol Benchmarks</h2>
+                <ul style="list-style: none; display: grid; gap: 15px;">
+                    <li style="border-left: 2px solid var(--primary); padding-left: 20px;">
+                        <strong>Brute Force Shield</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">Max 5 attempts allowed per 5-minute TTL window before code invalidation.</p>
+                    </li>
+                    <li style="border-left: 2px solid var(--primary); padding-left: 20px;">
+                        <strong>Entropy Standard</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">6-digit random integers generated via cryptographically secure RNG handles.</p>
+                    </li>
+                    <li style="border-left: 2px solid var(--primary); padding-left: 20px;">
+                        <strong>Atomic Cleanup</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">Successful verification triggers immediate deletion of OTP records to clear session state.</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card span-12">
+                <h2><span>SECTION 04</span> API Technical Reference</h2>
+                <table>
+                    <thead>
+                        <tr><th>Endpoint</th><th>Request Payload</th><th>Logic Responsibility</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>POST /register</code></td><td><code>{ email }</code></td><td>Initializes <code>OTPVerify</code> record and triggers SMTP.</td></tr>
+                        <tr><td><code>POST /verify-otp</code></td><td><code>{ email, otp }</code></td><td>Validates code and transitions <code>isVerified</code> to <code>true</code>.</td></tr>
+                        <tr><td><code>POST /set-password</code></td><td><code>{ email, pass }</code></td><td>Atomic merge of verified payload into <code>User</code> collection.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card span-12">
+                <h2><span>SECTION 05</span> Critical Function Analysis</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div>
+                        <strong class="func">OTPVerify.deleteMany()</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 5px;">Clears stale security contexts before issuing new codes, preventing multi-code collision attacks.</p>
+                    </div>
+                    <div>
+                        <strong class="func">sendOTPEmail(email, otp)</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 5px;">Configures the Nodemailer transporter pool for transactional delivery of authentication secrets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 100px; text-align: center; border-top: 1px solid var(--border); padding: 40px 0; color: var(--text-dim); font-size: 0.8rem;">
+            Security Document | Vijay Pooniya
+        </footer>
+    </div>
+</body>
+</html>

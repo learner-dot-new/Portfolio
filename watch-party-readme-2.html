@@ -1,0 +1,2161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Party — Complete Documentation</title>
+    <style>
+        :root {
+            --bg: #fdfcf7;
+            /* Creamy Beige */
+            --bg2: #f5f3e7;
+            --bg3: #ede9d5;
+            --card: #ffffff;
+            --border: rgba(0, 0, 0, 0.06);
+            --border2: rgba(0, 0, 0, 0.12);
+            --text: #1a1c1a;
+            --text2: #525952;
+            --text3: #7a827a;
+            --purple: #1b4332;
+            /* Deep Forest Green */
+            --purple-light: #2d6a4f;
+            /* Medium Green */
+            --purple-dim: rgba(27, 67, 50, 0.08);
+            --teal: #40916c;
+            /* Sage Green */
+            --teal-dim: rgba(64, 145, 108, 0.1);
+            --amber: #b45309;
+            /* Deep Amber for visibility */
+            --amber-dim: rgba(180, 83, 9, 0.08);
+            --red: #b91c1c;
+            /* Deep Red */
+            --red-dim: rgba(185, 28, 28, 0.08);
+            --blue: #1d4ed8;
+            /* Deep Blue */
+            --blue-dim: rgba(29, 78, 216, 0.08);
+            --green: #15803d;
+            /* Verified Green */
+            --green-dim: rgba(21, 128, 61, 0.08);
+            --pink: #be185d;
+            --font: 'Segoe UI', system-ui, sans-serif;
+            --mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #fdfcf7 0%, #f1f5e9 50%, #e8f0e1 100%);
+            padding: 64px 48px 56px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            left: -80px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(45, 106, 79, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -40px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(64, 145, 108, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--purple-dim);
+            border: 1px solid rgba(124, 106, 245, 0.3);
+            color: var(--purple-light);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #40916c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--text2);
+            font-size: 18px;
+            max-width: 640px;
+            margin-bottom: 28px;
+        }
+
+        .links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .link-btn.primary {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+        }
+
+        .link-btn.primary:hover {
+            background: #143427;
+            transform: translateY(-1px);
+        }
+
+        .link-btn.secondary {
+            background: #fff;
+            color: var(--text2);
+            border: 1px solid var(--border2);
+        }
+
+        .link-btn.secondary:hover {
+            color: var(--text);
+            border-color: rgba(0, 0, 0, 0.25);
+            background: var(--bg);
+        }
+
+        /* Nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(253, 252, 247, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            display: flex;
+            gap: 2px;
+            overflow-x: auto;
+        }
+
+        .nav a {
+            color: var(--text3);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 14px 16px;
+            text-decoration: none;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            border-bottom-color: var(--border2);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .section {
+            padding: 56px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--purple);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .section-desc {
+            color: var(--text2);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .card-grid.cols2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card-grid.cols3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card-grid.cols4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* Tech stack badges */
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--bg3);
+            margin: 4px;
+        }
+
+        .tech-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        code {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--purple-light);
+        }
+
+        pre code {
+            color: var(--text2);
+        }
+
+        .kw {
+            color: #7e22ce;
+            font-weight: 600;
+        }
+
+        .str {
+            color: #15803d;
+        }
+
+        .fn {
+            color: #1d4ed8;
+        }
+
+        .cm {
+            color: #71717a;
+            font-style: italic;
+        }
+
+        .num {
+            color: #b45309;
+        }
+
+        .obj {
+            color: #c2410c;
+        }
+
+        /* SVG Diagrams */
+        .diagram-wrap {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            overflow: hidden;
+        }
+
+        .diagram-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--text3);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: 16px 0;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+        }
+
+        td:first-child {
+            color: var(--text);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        /* Role badges */
+        .role {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .role.host {
+            background: var(--amber-dim);
+            color: var(--amber);
+        }
+
+        .role.mod {
+            background: var(--purple-dim);
+            color: var(--purple-light);
+        }
+
+        .role.part {
+            background: var(--blue-dim);
+            color: var(--blue);
+        }
+
+        .role.view {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text3);
+        }
+
+        /* Event rows */
+        .event-grid {
+            display: grid;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .event-row {
+            display: grid;
+            grid-template-columns: 200px 80px 1fr;
+            gap: 16px;
+            align-items: center;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .event-name {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--teal);
+        }
+
+        .dir-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .dir-badge.cs {
+            background: var(--blue-dim);
+            color: var(--blue);
+        }
+
+        .dir-badge.sc {
+            background: var(--green-dim);
+            color: var(--green);
+        }
+
+        /* Flow steps */
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .flow-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+            background: var(--purple-dim);
+            color: var(--purple-light);
+            border: 1px solid rgba(45, 106, 79, 0.25);
+        }
+
+        .step-content h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            color: var(--text2);
+            font-size: 14px;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-left: 3px solid;
+        }
+
+        .highlight-box.info {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+        }
+
+        .highlight-box.success {
+            background: var(--green-dim);
+            border-color: var(--green);
+        }
+
+        .highlight-box.warning {
+            background: var(--amber-dim);
+            border-color: var(--amber);
+        }
+
+        .highlight-box h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .highlight-box p {
+            font-size: 13px;
+            color: var(--text2);
+        }
+
+        /* Function docs */
+        .fn-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 12px 0;
+            overflow: hidden;
+        }
+
+        .fn-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .fn-name {
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .fn-file {
+            font-size: 12px;
+            color: var(--text3);
+            margin-left: auto;
+        }
+
+        .fn-body {
+            padding: 14px 20px;
+        }
+
+        .fn-body p {
+            color: var(--text2);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .fn-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .fn-tag {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .fn-tag.emit {
+            background: var(--teal-dim);
+            color: var(--teal);
+        }
+
+        .fn-tag.listen {
+            background: var(--purple-dim);
+            color: var(--purple-light);
+        }
+
+        .fn-tag.perm {
+            background: var(--amber-dim);
+            color: var(--amber);
+        }
+
+        .fn-tag.db {
+            background: var(--blue-dim);
+            color: var(--blue);
+        }
+
+        /* Responsive */
+        @media(max-width:680px) {
+            .hero {
+                padding: 40px 24px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .nav {
+                padding: 0 24px;
+            }
+
+            .card-grid.cols2,
+            .card-grid.cols3,
+            .card-grid.cols4 {
+                grid-template-columns: 1fr;
+            }
+
+            .event-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <div class="hero">
+        <a href="https://drive.google.com/file/d/16i7najnxXK1v8FWYnKb5wSgeTV6f4JKj/view?usp=drive_link" target="_blank"
+            style="text-decoration: none;">
+            <div class="hero-badge">🎬 DemoVideo</div>
+        </a>
+        <h1>Watch Party</h1>
+        <p>Synchronized real-time YouTube co-watching. One room, one video, everyone in perfect sync — powered by
+            WebSockets, JWT auth, and a latency-compensated playback engine.</p>
+        <div class="links">
+            <a class="link-btn primary" href="https://watch-party-eosin.vercel.app" target="_blank">🌐 Live App
+                (Vercel)</a>
+            <a class="link-btn secondary" href="https://watch-party-1-g3mw.onrender.com" target="_blank">⚙️ API
+                (Render)</a>
+        </div>
+    </div>
+
+    <!-- ═══════════ NAV ═══════════ -->
+    <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#stack">Tech Stack</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#auth-flow">Auth Flow</a>
+        <a href="#room-lifecycle">Room Lifecycle</a>
+        <a href="#video-sync">Video Sync</a>
+        <a href="#roles">Roles & Permissions</a>
+        <a href="#socket-events">Socket Events</a>
+        <a href="#functions">Function Reference</a>
+        <a href="#db">Database Schemas</a>
+        <a href="#deployment">Deployment</a>
+        <a href="#setup">Local Setup</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- ═══════════ 1. OVERVIEW ═══════════ -->
+        <section class="section" id="overview">
+            <div class="section-label">What is this?</div>
+            <div class="section-title">Project Overview</div>
+            <div class="section-desc">Watch Party lets users create virtual rooms, invite friends via a room code, and
+                watch
+                YouTube videos in perfect real-time sync. Play, pause, seek, or change a video — everyone in the room
+                follows
+                instantly.</div>
+
+            <div class="card-grid cols3">
+                <div class="card">
+                    <div style="font-size:28px;margin-bottom:10px;">🏠</div>
+                    <div style="font-weight:600;margin-bottom:6px;">Room-based model</div>
+                    <div style="color:var(--text2);font-size:14px;">Create or join rooms via unique 4-8 char codes like
+                        <code>CAFE-4821</code>. Rooms auto-expire after 24 hours.
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="font-size:28px;margin-bottom:10px;">⚡</div>
+                    <div style="font-weight:600;margin-bottom:6px;">Real-time sync</div>
+                    <div style="color:var(--text2);font-size:14px;">Socket.io events broadcast play/pause/seek to all
+                        clients in
+                        under 50ms. Latency compensation built-in.</div>
+                </div>
+                <div class="card">
+                    <div style="font-size:28px;margin-bottom:10px;">🔐</div>
+                    <div style="font-weight:600;margin-bottom:6px;">Secure & role-gated</div>
+                    <div style="color:var(--text2);font-size:14px;">JWT auth + OTP email verification. Playback controls
+                        restricted to HOST and MODERATOR roles only.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 2. TECH STACK ═══════════ -->
+        <section class="section" id="stack">
+            <div class="section-label">Technologies</div>
+            <div class="section-title">Tech Stack</div>
+            <div class="section-desc">A full-stack TypeScript monorepo with React on the frontend and Node/Express on
+                the
+                backend.</div>
+
+            <div class="card-grid cols2">
+                <div class="card">
+                    <div
+                        style="font-weight:600;color:var(--teal);margin-bottom:14px;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;">
+                        Frontend</div>
+                    <div>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#61dafb"></span>React 19
+                            (Vite)</span>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#06b6d4"></span>Tailwind
+                            CSS</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#f59e0b"></span>react-youtube</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#7c6af5"></span>socket.io-client</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#ef4444"></span>react-router-dom v7</span>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#f97316"></span>Lucide
+                            React</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div
+                        style="font-weight:600;color:var(--amber);margin-bottom:14px;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;">
+                        Backend</div>
+                    <div>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#3ecfb0"></span>Node.js +
+                            Express</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#3178c6"></span>TypeScript</span>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#47a248"></span>MongoDB
+                            (Mongoose)</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#7c6af5"></span>Socket.io</span>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#f59e0b"></span>JWT +
+                            Bcrypt</span>
+                        <span class="tech-badge"><span class="tech-dot"
+                                style="background:#60a5fa"></span>Nodemailer</span>
+                        <span class="tech-badge"><span class="tech-dot" style="background:#ef4444"></span>Helmet + Rate
+                            Limit</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 3. ARCHITECTURE ═══════════ -->
+        <section class="section" id="architecture">
+            <div class="section-label">System Design</div>
+            <div class="section-title">Architecture Overview</div>
+            <div class="section-desc">How the frontend, backend, database, and real-time layer connect together.</div>
+
+            <!-- Big architecture diagram -->
+            <div class="diagram-wrap">
+                <div class="diagram-title">Full System Architecture</div>
+                <svg width="100%" viewBox="0 0 860 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <!-- ── CLIENT BOX ── -->
+                    <rect x="20" y="20" width="200" height="460" rx="14" fill="rgba(27,67,50,0.04)"
+                        stroke="rgba(27,67,50,0.15)" stroke-width="1" />
+                    <text x="120" y="46" text-anchor="middle" fill="#1b4332" font-size="11" font-weight="600"
+                        letter-spacing="1" font-family="system-ui">CLIENT (Browser)</text>
+
+                    <!-- React App -->
+                    <rect x="36" y="60" width="168" height="44" rx="8" fill="#fff" stroke="rgba(27,67,50,0.12)"
+                        stroke-width="0.8" />
+                    <text x="120" y="78" text-anchor="middle" fill="#2d6a4f" font-size="13" font-weight="600"
+                        font-family="system-ui">React 19 App</text>
+                    <text x="120" y="94" text-anchor="middle" fill="#7a827a" font-size="11" font-family="system-ui">Vite
+                        +
+                        TypeScript</text>
+
+                    <!-- YouTube Player -->
+                    <rect x="36" y="120" width="168" height="44" rx="8" fill="#fff" stroke="rgba(185,28,28,0.15)"
+                        stroke-width="0.8" />
+                    <text x="120" y="138" text-anchor="middle" fill="#b91c1c" font-size="13" font-weight="600"
+                        font-family="system-ui">YouTube Player</text>
+                    <text x="120" y="154" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">react-youtube
+                        / IFrame API</text>
+
+                    <!-- Socket Client -->
+                    <rect x="36" y="180" width="168" height="44" rx="8" fill="#fff" stroke="rgba(27,67,50,0.15)"
+                        stroke-width="0.8" />
+                    <text x="120" y="198" text-anchor="middle" fill="#1b4332" font-size="13" font-weight="600"
+                        font-family="system-ui">Socket Client</text>
+                    <text x="120" y="214" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">socket.io-client</text>
+
+                    <!-- Auth Store -->
+                    <rect x="36" y="240" width="168" height="44" rx="8" fill="#fff" stroke="rgba(180,83,9,0.15)"
+                        stroke-width="0.8" />
+                    <text x="120" y="258" text-anchor="middle" fill="#b45309" font-size="13" font-weight="600"
+                        font-family="system-ui">JWT Store</text>
+                    <text x="120" y="274" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">localStorage
+                        token</text>
+
+                    <!-- Pages list -->
+                    <rect x="36" y="300" width="168" height="160" rx="8" fill="rgba(255,255,255,0.6)"
+                        stroke="rgba(0,0,0,0.06)" stroke-width="0.8" />
+                    <text x="120" y="320" text-anchor="middle" fill="#7a827a" font-size="11" font-weight="600"
+                        letter-spacing="0.5" font-family="system-ui">PAGES</text>
+                    <text x="52" y="340" fill="#7a827a" font-size="11" font-family="system-ui">LandingPage</text>
+                    <text x="52" y="358" fill="#7a827a" font-size="11" font-family="system-ui">Login / SignUp</text>
+                    <text x="52" y="376" fill="#7a827a" font-size="11" font-family="system-ui">Dashboard</text>
+                    <text x="52" y="394" fill="#7a827a" font-size="11" font-family="system-ui">CreateRoom /
+                        JoinRoom</text>
+                    <text x="52" y="412" fill="#7a827a" font-size="11" font-family="system-ui">Room (main room
+                        view)</text>
+
+                    <!-- ── VERCEL badge ── -->
+                    <rect x="48" y="460" width="144" height="18" rx="4" fill="rgba(0,0,0,0.05)"
+                        stroke="rgba(0,0,0,0.08)" stroke-width="0.5" />
+                    <text x="120" y="473" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">▲
+                        Deployed on
+                        Vercel</text>
+
+                    <!-- ── ARROWS client → server ── -->
+                    <!-- HTTP REST -->
+                    <line x1="204" y1="83" x2="310" y2="83" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5,3"
+                        marker-end="url(#arr)" />
+                    <text x="257" y="77" text-anchor="middle" fill="#b45309" font-size="10" font-family="system-ui">HTTP
+                        REST</text>
+
+                    <!-- WebSocket bidirectional -->
+                    <line x1="204" y1="205" x2="310" y2="205" stroke="#1b4332" stroke-width="2"
+                        marker-end="url(#arr)" />
+                    <line x1="310" y1="215" x2="204" y2="215" stroke="#40916c" stroke-width="2"
+                        marker-end="url(#arr)" />
+                    <text x="257" y="198" text-anchor="middle" fill="#1b4332" font-size="10"
+                        font-family="system-ui">WebSocket</text>
+                    <text x="257" y="228" text-anchor="middle" fill="#40916c" font-size="10"
+                        font-family="system-ui">Broadcast</text>
+
+                    <!-- ── SERVER BOX ── -->
+                    <rect x="310" y="20" width="220" height="460" rx="14" fill="rgba(64,145,108,0.04)"
+                        stroke="rgba(64,145,108,0.15)" stroke-width="1" />
+                    <text x="420" y="46" text-anchor="middle" fill="#40916c" font-size="11" font-weight="600"
+                        letter-spacing="1" font-family="system-ui">BACKEND (Node.js)</text>
+
+                    <!-- Express -->
+                    <rect x="326" y="60" width="188" height="44" rx="8" fill="#fff" stroke="rgba(64,145,108,0.12)"
+                        stroke-width="0.8" />
+                    <text x="420" y="78" text-anchor="middle" fill="#40916c" font-size="13" font-weight="600"
+                        font-family="system-ui">Express Server</text>
+                    <text x="420" y="94" text-anchor="middle" fill="#7a827a" font-size="11" font-family="system-ui">REST
+                        API +
+                        Middleware</text>
+
+                    <!-- Socket Handler -->
+                    <rect x="326" y="120" width="188" height="44" rx="8" fill="#fff" stroke="rgba(27,67,50,0.15)"
+                        stroke-width="0.8" />
+                    <text x="420" y="138" text-anchor="middle" fill="#1b4332" font-size="13" font-weight="600"
+                        font-family="system-ui">socketHandler.ts</text>
+                    <text x="420" y="154" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Brain of
+                        real-time logic</text>
+
+                    <!-- Socket Modules -->
+                    <rect x="326" y="180" width="188" height="100" rx="8" fill="rgba(255,255,255,0.6)"
+                        stroke="rgba(0,0,0,0.06)" stroke-width="0.8" />
+                    <text x="420" y="200" text-anchor="middle" fill="#7a827a" font-size="11" font-weight="600"
+                        letter-spacing="0.5" font-family="system-ui">SOCKET MODULES</text>
+                    <text x="340" y="220" fill="#7a827a" font-size="11" font-family="system-ui">roomEvents.ts →
+                        join/leave</text>
+                    <text x="340" y="238" fill="#7a827a" font-size="11" font-family="system-ui">videoEvents.ts →
+                        play/pause/seek</text>
+                    <text x="340" y="256" fill="#7a827a" font-size="11" font-family="system-ui">roleEvents.ts →
+                        kick/promote</text>
+                    <text x="340" y="274" fill="#7a827a" font-size="11" font-family="system-ui">helpers.ts →
+                        utilities</text>
+
+                    <!-- Auth -->
+                    <rect x="326" y="296" width="188" height="44" rx="8" fill="#fff" stroke="rgba(180,83,9,0.15)"
+                        stroke-width="0.8" />
+                    <text x="420" y="314" text-anchor="middle" fill="#b45309" font-size="13" font-weight="600"
+                        font-family="system-ui">Auth Middleware</text>
+                    <text x="420" y="330" text-anchor="middle" fill="#7a827a" font-size="11" font-family="system-ui">JWT
+                        verify +
+                        Socket auth</text>
+
+                    <!-- RoomCache -->
+                    <rect x="326" y="356" width="188" height="44" rx="8" fill="#fff" stroke="rgba(21,128,61,0.12)"
+                        stroke-width="0.8" />
+                    <text x="420" y="374" text-anchor="middle" fill="#15803d" font-size="13" font-weight="600"
+                        font-family="system-ui">roomCache.ts</text>
+                    <text x="420" y="390" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">In-memory
+                        speed layer</text>
+
+                    <!-- Render badge -->
+                    <rect x="338" y="414" width="164" height="18" rx="4" fill="rgba(0,0,0,0.05)"
+                        stroke="rgba(0,0,0,0.08)" stroke-width="0.5" />
+                    <text x="420" y="427" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">🟢
+                        Deployed
+                        on Render</text>
+
+                    <!-- ── ARROWS server → DB ── -->
+                    <line x1="530" y1="130" x2="616" y2="130" stroke="#15803d" stroke-width="1.5" stroke-dasharray="4,3"
+                        marker-end="url(#arr)" />
+                    <text x="573" y="122" text-anchor="middle" fill="#15803d" font-size="10"
+                        font-family="system-ui">Mongoose</text>
+
+                    <line x1="530" y1="370" x2="616" y2="200" stroke="#15803d" stroke-width="1.5" stroke-dasharray="4,3"
+                        marker-end="url(#arr)" />
+                    <text x="575" y="315" text-anchor="middle" fill="#15803d" font-size="10"
+                        font-family="system-ui">Persist</text>
+
+                    <!-- ── DATABASE BOX ── -->
+                    <rect x="616" y="60" width="224" height="380" rx="14" fill="rgba(21,128,61,0.04)"
+                        stroke="rgba(21,128,61,0.15)" stroke-width="1" />
+                    <text x="728" y="86" text-anchor="middle" fill="#15803d" font-size="11" font-weight="600"
+                        letter-spacing="1" font-family="system-ui">MONGODB ATLAS</text>
+
+                    <!-- Collections -->
+                    <rect x="632" y="100" width="192" height="56" rx="8" fill="#fff" stroke="rgba(21,128,61,0.1)"
+                        stroke-width="0.8" />
+                    <text x="728" y="120" text-anchor="middle" fill="#15803d" font-size="13" font-weight="600"
+                        font-family="system-ui">registers</text>
+                    <text x="728" y="138" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">users, hashed
+                        passwords</text>
+                    <text x="728" y="152" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">isVerified
+                        flag, JWT</text>
+
+                    <rect x="632" y="172" width="192" height="56" rx="8" fill="#fff" stroke="rgba(21,128,61,0.1)"
+                        stroke-width="0.8" />
+                    <text x="728" y="192" text-anchor="middle" fill="#15803d" font-size="13" font-weight="600"
+                        font-family="system-ui">rooms</text>
+                    <text x="728" y="210" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">roomId,
+                        hostId, users[]</text>
+                    <text x="728" y="224" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">videoState,
+                        TTL 24h</text>
+
+                    <rect x="632" y="244" width="192" height="44" rx="8" fill="#fff" stroke="rgba(21,128,61,0.1)"
+                        stroke-width="0.8" />
+                    <text x="728" y="262" text-anchor="middle" fill="#15803d" font-size="13" font-weight="600"
+                        font-family="system-ui">otpverifies</text>
+                    <text x="728" y="278" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">temp 6-digit
+                        OTP codes</text>
+
+                    <rect x="632" y="304" width="192" height="44" rx="8" fill="#fff" stroke="rgba(21,128,61,0.1)"
+                        stroke-width="0.8" />
+                    <text x="728" y="322" text-anchor="middle" fill="#15803d" font-size="13" font-weight="600"
+                        font-family="system-ui">feedbacks</text>
+                    <text x="728" y="338" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">user
+                        feedback/reports</text>
+
+                    <!-- YouTube External -->
+                    <rect x="632" y="364" width="192" height="44" rx="8" fill="#fff" stroke="rgba(185,28,28,0.1)"
+                        stroke-width="0.8" />
+                    <text x="728" y="382" text-anchor="middle" fill="#b91c1c" font-size="13" font-weight="600"
+                        font-family="system-ui">YouTube IFrame API</text>
+                    <text x="728" y="398" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">External — no
+                        streaming</text>
+
+                    <!-- YT arrow -->
+                    <line x1="204" y1="142" x2="632" y2="381" stroke="#b91c1c" stroke-width="1" stroke-dasharray="3,4"
+                        marker-end="url(#arr)" />
+
+                </svg>
+            </div>
+
+            <div class="highlight-box info">
+                <h4>Key Design Decision: No raw video streaming</h4>
+                <p>Watch Party doesn't stream video bytes. Every client loads the same YouTube video independently via
+                    the
+                    IFrame API. The server only syncs <em>playback commands</em> (play/pause/seek/change). This means
+                    zero video
+                    bandwidth on your servers, infinite scalability for video delivery.</p>
+            </div>
+        </section>
+
+        <!-- ═══════════ 4. AUTH FLOW ═══════════ -->
+        <section class="section" id="auth-flow"
+            style="font-family: system-ui, -apple-system, sans-serif; background-color: #fcfbf6; padding: 40px; border-radius: 12px; border: 1px solid #e5e5e5; max-width: 1200px; margin: 0 auto;">
+            <div class="section-label"
+                style="font-weight: 600; color: #6b7280; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">
+                Security</div>
+            <div class="section-title" style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 8px;">
+                Authentication Flow</div>
+            <div class="section-desc" style="color: #4b5563; font-size: 15px; margin-bottom: 32px;">Email OTP
+                verification on
+                signup, JWT for all protected routes and WebSocket connections.</div>
+
+            <div class="diagram-wrap" style="margin-bottom: 40px;">
+                <div class="diagram-title"
+                    style="font-size: 14px; font-weight: 600; color: #4b5563; letter-spacing: 1.5px; margin-bottom: 20px; text-transform: uppercase;">
+                    Signup → OTP → JWT Flow</div>
+
+                <svg width="100%" viewBox="0 0 1100 380" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="#6366f1" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                        <marker id="arr-dashed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="#3b82f6" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <text x="210" y="110" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">POST</text>
+                    <text x="210" y="126" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">/SIGNUP</text>
+
+                    <text x="430" y="110" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">POST</text>
+                    <text x="430" y="126" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">/VERIFY-OTP</text>
+
+                    <text x="650" y="110" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">POST</text>
+                    <text x="650" y="126" text-anchor="middle" fill="#111827" font-size="13"
+                        font-weight="600">/SET-PASSWORD</text>
+
+
+                    <rect x="30" y="150" width="140" height="64" rx="8" fill="#f3e8ff" stroke="#a855f7"
+                        stroke-width="1.2" />
+                    <text x="100" y="176" text-anchor="middle" fill="#7e22ce" font-size="14" font-weight="600">1.
+                        Signup</text>
+                    <text x="100" y="196" text-anchor="middle" fill="#111827" font-size="12">Email entered</text>
+
+                    <line x1="170" y1="182" x2="250" y2="182" stroke="#6366f1" stroke-width="1.5"
+                        marker-end="url(#arr-blue)" />
+
+                    <rect x="250" y="150" width="140" height="64" rx="8" fill="#dcfce7" stroke="#22c55e"
+                        stroke-width="1.2" />
+                    <text x="320" y="172" text-anchor="middle" fill="#15803d" font-size="14" font-weight="600">2. OTP
+                        Generated</text>
+                    <text x="320" y="190" text-anchor="middle" fill="#111827" font-size="12">6-digit code</text>
+                    <text x="320" y="206" text-anchor="middle" fill="#111827" font-size="12">stored in
+                        'otpverifies'</text>
+
+                    <line x1="320" y1="214" x2="320" y2="280" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"
+                        marker-end="url(#arr-dashed)" />
+                    <text x="334" y="248" fill="#3b82f6" font-size="11" font-weight="500">Nodemailer</text>
+
+                    <rect x="250" y="280" width="140" height="48" rx="8" fill="#dbeafe" stroke="#60a5fa"
+                        stroke-width="1.2" />
+                    <text x="320" y="300" text-anchor="middle" fill="#1d4ed8" font-size="13" font-weight="600">📧 User
+                        Inbox</text>
+                    <text x="320" y="316" text-anchor="middle" fill="#111827" font-size="12">OTP email arrives</text>
+
+                    <line x1="390" y1="182" x2="470" y2="182" stroke="#6366f1" stroke-width="1.5"
+                        marker-end="url(#arr-blue)" />
+
+                    <rect x="470" y="150" width="140" height="64" rx="8" fill="#fef08a" stroke="#eab308"
+                        stroke-width="1.2" />
+                    <text x="540" y="172" text-anchor="middle" fill="#a16207" font-size="14" font-weight="600">3. OTP
+                        Verified</text>
+                    <text x="540" y="190" text-anchor="middle" fill="#111827" font-size="12">Code matches DB</text>
+                    <text x="540" y="206" text-anchor="middle" fill="#111827" font-size="12">isVerified = true</text>
+
+                    <line x1="610" y1="182" x2="690" y2="182" stroke="#6366f1" stroke-width="1.5"
+                        marker-end="url(#arr-blue)" />
+
+                    <rect x="690" y="150" width="140" height="64" rx="8" fill="#dcfce7" stroke="#22c55e"
+                        stroke-width="1.2" />
+                    <text x="760" y="172" text-anchor="middle" fill="#15803d" font-size="14" font-weight="600">4.
+                        Register</text>
+                    <text x="760" y="190" text-anchor="middle" fill="#111827" font-size="12">Bcrypt hash saved</text>
+                    <text x="760" y="206" text-anchor="middle" fill="#111827" font-size="12">to registers</text>
+
+                    <line x1="830" y1="182" x2="910" y2="182" stroke="#6366f1" stroke-width="1.5"
+                        marker-end="url(#arr-blue)" />
+
+                    <rect x="910" y="150" width="140" height="64" rx="8" fill="#fef08a" stroke="#eab308"
+                        stroke-width="1.2" />
+                    <text x="980" y="172" text-anchor="middle" fill="#a16207" font-size="14" font-weight="600">5. JWT
+                        Issued</text>
+                    <text x="980" y="190" text-anchor="middle" fill="#111827" font-size="12">Bearer token</text>
+                    <text x="980" y="206" text-anchor="middle" fill="#111827" font-size="12">for all API calls</text>
+
+                    <text x="540" y="360" text-anchor="middle" fill="#374151" font-size="12">All protected routes +
+                        socket
+                        connections require: Authorization: Bearer &lt;token&gt;</text>
+                </svg>
+            </div>
+
+            <div class="card-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card"
+                    style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e5e5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: #d97706;">🔑 HTTP Auth</div>
+                    <div style="color: #4b5563; font-size: 14px; line-height: 1.5;">Every protected REST route passes
+                        through
+                        <code
+                            style="background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 13px;">auth.middleware.ts</code>.
+                        It extracts the Bearer token from the Authorization header, verifies with <code
+                            style="background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 13px;">jwt.verify()</code>,
+                        and attaches <code
+                            style="background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 13px;">req.user</code>
+                        with
+                        the decoded payload.
+                    </div>
+                </div>
+                <div class="card"
+                    style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e5e5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: #7c3aed;">🔌 Socket Auth</div>
+                    <div style="color: #4b5563; font-size: 14px; line-height: 1.5;"><code
+                            style="background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 13px;">socketAuth.middleware.ts</code>
+                        runs on every new socket connection. Reads the token from <code
+                            style="background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 13px;">socket.handshake.auth.token</code>
+                        and verifies it before allowing the connection to proceed.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 5. ROOM LIFECYCLE ═══════════ -->
+        <section class="section" id="room-lifecycle">
+            <div class="section-label">Core Feature</div>
+            <div class="section-title">Room Lifecycle</div>
+            <div class="section-desc">From room creation to expiry — every state a room passes through.</div>
+
+            <div class="diagram-wrap">
+                <div class="diagram-title">Room State Machine</div>
+                <svg width="100%" viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <!-- States -->
+                    <rect x="30" y="70" width="140" height="60" rx="10" fill="rgba(180,83,9,0.06)"
+                        stroke="rgba(180,83,9,0.2)" stroke-width="1" />
+                    <text x="100" y="96" text-anchor="middle" fill="#b45309" font-size="14" font-weight="600"
+                        font-family="system-ui">WAITING</text>
+                    <text x="100" y="116" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Host created
+                        room</text>
+
+                    <line x1="170" y1="100" x2="256" y2="100" stroke="#b45309" stroke-width="1.5"
+                        marker-end="url(#arr3)" />
+                    <text x="213" y="92" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">first user
+                        joins</text>
+
+                    <rect x="256" y="70" width="140" height="60" rx="10" fill="rgba(21,128,61,0.06)"
+                        stroke="rgba(21,128,61,0.2)" stroke-width="1" />
+                    <text x="326" y="96" text-anchor="middle" fill="#15803d" font-size="14" font-weight="600"
+                        font-family="system-ui">ACTIVE</text>
+                    <text x="326" y="116" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Watching in
+                        progress</text>
+
+                    <line x1="396" y1="100" x2="482" y2="100" stroke="#b91c1c" stroke-width="1.5"
+                        marker-end="url(#arr3)" />
+                    <text x="439" y="92" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">host
+                        closes /
+                        TTL</text>
+
+                    <rect x="482" y="70" width="140" height="60" rx="10" fill="rgba(185,28,28,0.06)"
+                        stroke="rgba(185,28,28,0.2)" stroke-width="1" />
+                    <text x="552" y="96" text-anchor="middle" fill="#b91c1c" font-size="14" font-weight="600"
+                        font-family="system-ui">CLOSED</text>
+                    <text x="552" y="116" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Room expired
+                        / ended</text>
+
+                    <!-- TTL box -->
+                    <rect x="656" y="70" width="180" height="60" rx="10" fill="rgba(29,78,216,0.04)"
+                        stroke="rgba(29,78,216,0.15)" stroke-width="0.8" />
+                    <text x="746" y="92" text-anchor="middle" fill="#1d4ed8" font-size="13" font-weight="600"
+                        font-family="system-ui">⏱ Auto-expiry</text>
+                    <text x="746" y="110" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">MongoDB TTL
+                        index</text>
+                    <text x="746" y="124" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">expiresAt =
+                        24 hrs</text>
+
+                    <text x="430" y="170" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Room codes
+                        look like: CAFE-4821 · BEET-7392 · JAZZ-0011</text>
+                </svg>
+            </div>
+
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Create Room</h4>
+                        <p>User hits <code>POST /room/create</code>. Backend generates a unique uppercase room code
+                            (e.g.
+                            <code>CAFE-4821</code>), creates a Room document in MongoDB with
+                            <code>status: "WAITING"</code>, and
+                            initializes it in the in-memory <code>roomCache</code>. Creator is assigned
+                            <code>HOST</code> role.
+                        </p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Join Room</h4>
+                        <p>Another user emits <code>join_room</code> with the room code. Server adds them to the
+                            <code>roomCache</code>, updates the DB, and emits <code>room_data</code> (participant list)
+                            to everyone.
+                            It also emits <code>request_sync</code> specifically to the HOST so the new joiner gets the
+                            current video
+                            timestamp.
+                        </p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Watch & Sync</h4>
+                        <p>HOST or MODERATOR controls video. Each action emits <code>video_action</code> → server
+                            validates
+                            permission → broadcasts <code>receive_video_action</code> to all clients in the room. A
+                            periodic
+                            <code>sync_time</code> heartbeat keeps latecomers in sync.
+                        </p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Disconnect Grace Period</h4>
+                        <p>On socket disconnect, the server waits <strong>5 seconds</strong> before cleaning up. This
+                            prevents
+                            "ghost leaves" from React StrictMode double-mounts or brief network blips. If the socket
+                            reconnects within
+                            5s, the user stays in the room seamlessly.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>Room Expiry</h4>
+                        <p>Every room has an <code>expiresAt</code> field with a MongoDB TTL index set to 24 hours.
+                            MongoDB
+                            auto-deletes expired rooms without any cleanup cron job needed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 6. VIDEO SYNC ═══════════ -->
+        <section class="section" id="video-sync">
+            <div class="section-label">Core Algorithm</div>
+            <div class="section-title">Video Synchronization</div>
+            <div class="section-desc">How every client stays in sync despite different network latencies.</div>
+
+            <div class="diagram-wrap">
+                <div class="diagram-title">Play Event: Host → Server → All Clients (with latency compensation)</div>
+                <svg width="100%" viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <!-- Actors -->
+                    <rect x="30" y="20" width="120" height="44" rx="8" fill="rgba(180,83,9,0.06)"
+                        stroke="rgba(180,83,9,0.25)" stroke-width="1" />
+                    <text x="90" y="38" text-anchor="middle" fill="#b45309" font-size="13" font-weight="600"
+                        font-family="system-ui">HOST</text>
+                    <text x="90" y="54" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Browser</text>
+
+                    <rect x="330" y="20" width="200" height="44" rx="8" fill="rgba(64,145,108,0.06)"
+                        stroke="rgba(64,145,108,0.25)" stroke-width="1" />
+                    <text x="430" y="38" text-anchor="middle" fill="#40916c" font-size="13" font-weight="600"
+                        font-family="system-ui">SERVER</text>
+                    <text x="430" y="54" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Node.js +
+                        Socket.io</text>
+
+                    <rect x="680" y="20" width="160" height="44" rx="8" fill="rgba(27,67,50,0.06)"
+                        stroke="rgba(27,67,50,0.25)" stroke-width="1" />
+                    <text x="760" y="38" text-anchor="middle" fill="#1b4332" font-size="13" font-weight="600"
+                        font-family="system-ui">CLIENTS</text>
+                    <text x="760" y="54" text-anchor="middle" fill="#7a827a" font-size="11" font-family="system-ui">All
+                        other
+                        browsers</text>
+
+                    <!-- Vertical lifelines -->
+                    <line x1="90" y1="64" x2="90" y2="320" stroke="rgba(0,0,0,0.08)" stroke-width="1"
+                        stroke-dasharray="4,4" />
+                    <line x1="430" y1="64" x2="430" y2="320" stroke="rgba(0,0,0,0.08)" stroke-width="1"
+                        stroke-dasharray="4,4" />
+                    <line x1="760" y1="64" x2="760" y2="320" stroke="rgba(0,0,0,0.08)" stroke-width="1"
+                        stroke-dasharray="4,4" />
+
+                    <!-- Step 1: Host emits -->
+                    <line x1="90" y1="100" x2="428" y2="100" stroke="#b45309" stroke-width="1.5"
+                        marker-end="url(#arr4)" />
+                    <text x="260" y="92" text-anchor="middle" fill="#b45309" font-size="11"
+                        font-family="system-ui">video_action
+                        {play, currentTime: 45.2}</text>
+
+                    <!-- Step 2: Server stamps timestamp -->
+                    <rect x="360" y="112" width="140" height="32" rx="6" fill="#fff" stroke="rgba(64,145,108,0.12)"
+                        stroke-width="0.5" />
+                    <text x="430" y="124" text-anchor="middle" fill="#40916c" font-size="11"
+                        font-family="system-ui">Validate role
+                        (HOST ✓)</text>
+                    <text x="430" y="138" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">Add
+                        serverTimestamp: Date.now()</text>
+
+                    <!-- Step 3: Broadcast -->
+                    <line x1="430" y1="160" x2="758" y2="160" stroke="#1b4332" stroke-width="1.5"
+                        marker-end="url(#arr4)" />
+                    <text x="594" y="152" text-anchor="middle" fill="#1b4332" font-size="11"
+                        font-family="system-ui">receive_video_action {play, time: 45.2, serverTs}</text>
+
+                    <!-- Step 4: Client calculates -->
+                    <rect x="670" y="172" width="180" height="56" rx="6" fill="#fff" stroke="rgba(27,67,50,0.12)"
+                        stroke-width="0.5" />
+                    <text x="760" y="188" text-anchor="middle" fill="#1b4332" font-size="11"
+                        font-family="system-ui">latency =
+                        Date.now() - serverTs</text>
+                    <text x="760" y="204" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">seekTo = 45.2
+                        + latency/1000</text>
+                    <text x="760" y="218" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">player.seekTo(seekTo)</text>
+
+                    <!-- Step 5: Heartbeat sync -->
+                    <text x="90" y="260" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">every
+                        ~5s</text>
+                    <line x1="90" y1="268" x2="428" y2="268" stroke="#15803d" stroke-width="1" stroke-dasharray="3,3"
+                        marker-end="url(#arr4)" />
+                    <text x="260" y="260" text-anchor="middle" fill="#15803d" font-size="11"
+                        font-family="system-ui">sync_time
+                        {currentTime, serverTimestamp}</text>
+
+                    <line x1="430" y1="280" x2="758" y2="280" stroke="#15803d" stroke-width="1" stroke-dasharray="3,3"
+                        marker-end="url(#arr4)" />
+                    <text x="594" y="296" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">Periodic
+                        heartbeat — keeps latecomers in sync</text>
+                </svg>
+            </div>
+
+            <div class="highlight-box success">
+                <h4>Why latency compensation matters</h4>
+                <p>If Host is in Mumbai and Client is in New York (say 180ms RTT), without compensation the New Yorker
+                    would be
+                    90ms behind. With compensation: client calculates latency, adds it to the received timestamp, and
+                    seeks
+                    slightly ahead. Everyone ends up at the same frame.</p>
+            </div>
+
+            <div class="card-grid cols2">
+                <div class="card">
+                    <div style="font-weight:600;margin-bottom:10px;">Infinite loop prevention</div>
+                    <div style="color:var(--text2);font-size:14px;">When a client receives
+                        <code>receive_video_action</code> and
+                        calls <code>player.seekTo()</code>, the YouTube player fires its own <code>onStateChange</code>
+                        event —
+                        which would re-emit <code>video_action</code> back to server, creating a loop.
+                        <code>YoutubePlayer.tsx</code> uses a <code>isRemoteAction</code> ref flag to skip emitting when
+                        the seek
+                        was triggered by a socket event.
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="font-weight:600;margin-bottom:10px;">In-memory cache strategy</div>
+                    <div style="color:var(--text2);font-size:14px;"><code>roomCache.ts</code> keeps current room state
+                        in memory
+                        (a plain JS Map). Every seek/heartbeat hits cache only — not MongoDB. DB writes happen only on
+                        critical
+                        events: user join/leave, video change, and status change. This prevents thousands of DB writes
+                        per minute
+                        during active sync.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 7. ROLES ═══════════ -->
+        <section class="section" id="roles">
+            <div class="section-label">Access Control</div>
+            <div class="section-title">Roles & Permissions</div>
+            <div class="section-desc">Four-tier RBAC system enforced on both frontend (UI disabled) and backend (socket
+                events
+                rejected).</div>
+
+            <div class="diagram-wrap">
+                <div class="diagram-title">Role Hierarchy & Permissions</div>
+                <svg width="100%" viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <!-- HOST -->
+                    <rect x="320" y="20" width="220" height="80" rx="10" fill="rgba(180,83,9,0.06)"
+                        stroke="rgba(180,83,9,0.3)" stroke-width="1.5" />
+                    <text x="430" y="46" text-anchor="middle" fill="#b45309" font-size="15" font-weight="700"
+                        font-family="system-ui">HOST</text>
+                    <text x="430" y="64" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Auto-assigned
+                        to room creator</text>
+                    <text x="430" y="80" text-anchor="middle" fill="#7a827a" font-size="11" font-family="system-ui">Play
+                        · Pause ·
+                        Seek · Change Video</text>
+                    <text x="430" y="96" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Assign Roles ·
+                        Kick · Transfer Host</text>
+
+                    <!-- Arrow down to MOD -->
+                    <line x1="390" y1="100" x2="310" y2="150" stroke="rgba(0,0,0,0.1)" stroke-width="1"
+                        marker-end="url(#arr5)" />
+                    <text x="330" y="128" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">can
+                        promote</text>
+
+                    <!-- Arrow down to PARTICIPANT -->
+                    <line x1="470" y1="100" x2="560" y2="150" stroke="rgba(0,0,0,0.1)" stroke-width="1"
+                        marker-end="url(#arr5)" />
+                    <text x="540" y="128" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">can
+                        demote</text>
+
+                    <!-- MODERATOR -->
+                    <rect x="160" y="150" width="200" height="70" rx="10" fill="rgba(27,67,50,0.06)"
+                        stroke="rgba(27,67,50,0.25)" stroke-width="1" />
+                    <text x="260" y="172" text-anchor="middle" fill="#1b4332" font-size="14" font-weight="600"
+                        font-family="system-ui">MODERATOR</text>
+                    <text x="260" y="190" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Host-assigned</text>
+                    <text x="260" y="206" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Play · Pause
+                        · Seek · Chat</text>
+
+                    <!-- PARTICIPANT -->
+                    <rect x="490" y="150" width="200" height="70" rx="10" fill="rgba(29,78,216,0.04)"
+                        stroke="rgba(29,78,216,0.2)" stroke-width="1" />
+                    <text x="590" y="172" text-anchor="middle" fill="#1d4ed8" font-size="14" font-weight="600"
+                        font-family="system-ui">PARTICIPANT</text>
+                    <text x="590" y="190" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Default for
+                        joiners</text>
+                    <text x="590" y="206" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Watch · Chat
+                        only</text>
+
+                    <!-- VIEWER -->
+                    <rect x="320" y="240" width="220" height="30" rx="8" fill="rgba(122,130,122,0.05)"
+                        stroke="rgba(122,130,122,0.2)" stroke-width="0.8" />
+                    <text x="430" y="260" text-anchor="middle" fill="#7a827a" font-size="12" font-weight="600"
+                        font-family="system-ui">VIEWER — Watch only (Chat disabled)</text>
+
+                    <line x1="590" y1="220" x2="490" y2="242" stroke="rgba(0,0,0,0.1)" stroke-width="1"
+                        marker-end="url(#arr5)" />
+                </svg>
+            </div>
+
+            <div class="highlight-box warning">
+                <h4>Double-layer enforcement</h4>
+                <p>Frontend disables buttons for restricted roles (PARTICIPANT can't see play controls). But this alone
+                    isn't
+                    enough — backend <code>videoEvents.ts</code> and <code>roleEvents.ts</code> also check the user's
+                    role from
+                    <code>roomCache</code> before processing any socket event, and silently reject unauthorized actions.
+                </p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>HOST</th>
+                        <th>MODERATOR</th>
+                        <th>PARTICIPANT</th>
+                        <th>VIEWER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Play / Pause</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Seek / Scrub</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Change Video</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Send Chat</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Assign Roles</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Kick User</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Transfer Host</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ═══════════ 8. SOCKET EVENTS ═══════════ -->
+        <section class="section" id="socket-events">
+            <div class="section-label">WebSocket API</div>
+            <div class="section-title">Socket Event Reference</div>
+            <div class="section-desc">All Socket.io events, their direction, and payloads.</div>
+
+            <div style="font-weight:600;margin-bottom:12px;font-size:13px;color:var(--text3)">CLIENT → SERVER (emit
+                these from
+                frontend)</div>
+            <div class="event-grid">
+                <div class="event-row">
+                    <span class="event-name">create_room</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;">Creates room, initializes roomCache, assigns HOST
+                        role to
+                        creator</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">join_room</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ roomId }</code> — Adds user to room,
+                        triggers
+                        request_sync to HOST for new joiner</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">leave_room</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ roomId }</code> — Removes user after 5s
+                        grace
+                        period</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">video_action</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span
+                        style="color:var(--text2);font-size:13px;"><code>{ action: 'play'|'pause'|'seek'|'change', currentTime, videoId? }</code>
+                        — HOST/MOD only</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">sync_time</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ currentTime }</code> — HOST heartbeat,
+                        broadcast to
+                        all with serverTimestamp</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">transfer_host</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ targetUserId }</code> — HOST only.
+                        Transfers HOST
+                        role to another participant</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">change_role</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ targetUserId, newRole }</code> — HOST only.
+                        Promotes/demotes users</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">kick_user</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ targetUserId }</code> — HOST only. Removes
+                        user and
+                        terminates their socket</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">send_message</span>
+                    <span class="dir-badge cs">C→S</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ message }</code> — Rate-limited. Broadcasts
+                        to all in
+                        room</span>
+                </div>
+            </div>
+
+            <div style="font-weight:600;margin:24px 0 12px;font-size:13px;color:var(--text3)">SERVER → CLIENT (listen
+                for
+                these on frontend)</div>
+            <div class="event-grid">
+                <div class="event-row">
+                    <span class="event-name">room_data</span>
+                    <span class="dir-badge sc">S→C</span>
+                    <span style="color:var(--text2);font-size:13px;">Updated participant list (socketId stripped for
+                        security) —
+                        emitted on join/leave/role change</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">receive_video_action</span>
+                    <span class="dir-badge sc">S→C</span>
+                    <span
+                        style="color:var(--text2);font-size:13px;"><code>{ action, currentTime, serverTimestamp }</code>
+                        —
+                        Triggers local player seek + play/pause</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">request_sync</span>
+                    <span class="dir-badge sc">S→C</span>
+                    <span style="color:var(--text2);font-size:13px;">Sent specifically to HOST when a new user joins —
+                        host
+                        responds with current video state</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">you_were_kicked</span>
+                    <span class="dir-badge sc">S→C</span>
+                    <span style="color:var(--text2);font-size:13px;">Sent to kicked user before socket is terminated.
+                        Frontend
+                        shows message and redirects.</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-name">receive_message</span>
+                    <span class="dir-badge sc">S→C</span>
+                    <span style="color:var(--text2);font-size:13px;"><code>{ sender, message, timestamp }</code> — Chat
+                        message
+                        broadcast to room</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 9. FUNCTION REFERENCE ═══════════ -->
+        <section class="section" id="functions">
+            <div class="section-label">Code Deep Dive</div>
+            <div class="section-title">Function Reference</div>
+            <div class="section-desc">What every major function does, where it lives, and what it emits.</div>
+
+            <!-- socketHandler.ts -->
+            <div style="font-size:16px;font-weight:600;color:var(--teal);margin:24px 0 12px;">🔌
+                sockets/socketHandler.ts —
+                main entry point</div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">initSocketHandler(io)</span>
+                    <span class="fn-file">socketHandler.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Called once when the server starts. Registers the <code>socketAuth</code> middleware, then calls
+                        <code>roomEvents</code>, <code>videoEvents</code>, and <code>roleEvents</code> handlers on every
+                        <code>connection</code>. Maintains the <code>roomCache</code> — a
+                        <code>Map&lt;roomId, RoomState&gt;</code>
+                        shared across all modules.
+                    </p>
+                </div>
+            </div>
+
+            <!-- roomEvents.ts -->
+            <div style="font-size:16px;font-weight:600;color:var(--purple-light);margin:24px 0 12px;">🏠
+                sockets/roomEvents.ts
+                — join/leave/create</div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">create_room handler</span>
+                    <span class="fn-file">roomEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Creates a new Room document in MongoDB with <code>status: "WAITING"</code>, generates a unique
+                        room code,
+                        adds it to <code>roomCache</code>, joins the socket to a Socket.io room (channel), assigns the
+                        creator as
+                        <code>HOST</code>.
+                    </p>
+                    <p><span class="fn-tag emit">emits</span> <code>room_created</code> to creator with the room code.
+                    </p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">join_room handler</span>
+                    <span class="fn-file">roomEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Validates room exists and isn't closed. Adds user to <code>roomCache[roomId].users</code> array,
+                        updates
+                        MongoDB. Joins the socket to the Socket.io room channel.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>room_data</code> to all in room (updated participant
+                        list,
+                        socketId stripped).</p>
+                    <p><span class="fn-tag emit">emits</span> <code>request_sync</code> to HOST socket specifically — so
+                        new
+                        joiner gets current video position.</p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">disconnect + leave_room handler</span>
+                    <span class="fn-file">roomEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>On disconnect, sets a 5-second <code>setTimeout</code> before actually removing the user. If they
+                        reconnect
+                        within 5s (common with React StrictMode), the timeout is cleared. After 5s, user is removed from
+                        cache and
+                        DB.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>room_data</code> to remaining participants.</p>
+                </div>
+            </div>
+
+            <!-- videoEvents.ts -->
+            <div style="font-size:16px;font-weight:600;color:var(--amber);margin:24px 0 12px;">🎬 sockets/videoEvents.ts
+                —
+                playback control</div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">video_action handler</span>
+                    <span class="fn-file">videoEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Handles play, pause, seek, and change_video. First checks if the emitting socket belongs to a
+                        <code>HOST</code> or <code>MODERATOR</code> (from roomCache). If not, silently ignores. If yes,
+                        updates
+                        videoState in roomCache, stamps <code>serverTimestamp: Date.now()</code>, and broadcasts to
+                        room.
+                    </p>
+                    <p><span class="fn-tag perm">requires</span> HOST or MODERATOR role.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>receive_video_action</code> to all sockets in room
+                        including
+                        self.</p>
+                    <p><span class="fn-tag db">db write</span> Only on <code>change_video</code> — updates
+                        <code>videoState.youtubeId</code> in MongoDB.
+                    </p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">sync_time handler</span>
+                    <span class="fn-file">videoEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Called periodically by the HOST as a heartbeat. Server reads <code>currentTime</code> from
+                        payload, adds
+                        <code>serverTimestamp</code>, and broadcasts to all clients in room. Clients use this to resync
+                        if they
+                        drifted (e.g. network hiccup).
+                    </p>
+                    <p><span class="fn-tag emit">emits</span> <code>receive_sync</code> to all in room.</p>
+                </div>
+            </div>
+
+            <!-- roleEvents.ts -->
+            <div style="font-size:16px;font-weight:600;color:var(--red);margin:24px 0 12px;">👑 sockets/roleEvents.ts —
+                permissions management</div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">change_role handler</span>
+                    <span class="fn-file">roleEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>HOST sends <code>{ targetUserId, newRole }</code>. Server verifies requester is HOST. Updates
+                        role in
+                        roomCache and MongoDB. Broadcasts updated participant list.</p>
+                    <p><span class="fn-tag perm">requires</span> HOST role.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>room_data</code> to all — so all clients update
+                        their UI
+                        (enable/disable controls).</p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">kick_user handler</span>
+                    <span class="fn-file">roleEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>HOST sends <code>{ targetUserId }</code>. Server finds the target's <code>socketId</code> from
+                        roomCache,
+                        emits <code>you_were_kicked</code> to that specific socket, then calls
+                        <code>socket.disconnect(true)</code>
+                        to terminate their connection.
+                    </p>
+                    <p><span class="fn-tag perm">requires</span> HOST role.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>you_were_kicked</code> to target socket then
+                        terminates
+                        connection.</p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">transfer_host handler</span>
+                    <span class="fn-file">roleEvents.ts</span>
+                </div>
+                <div class="fn-body">
+                    <p>Current HOST passes HOST role to another participant. Current HOST is demoted to PARTICIPANT. New
+                        HOST gets
+                        full control.</p>
+                    <p><span class="fn-tag emit">emits</span> <code>room_data</code> with updated roles to all.</p>
+                </div>
+            </div>
+
+            <!-- Frontend functions -->
+            <div style="font-size:16px;font-weight:600;color:var(--blue);margin:24px 0 12px;">⚛️ Frontend — Key
+                Components
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">YoutubePlayer.tsx</span>
+                    <span class="fn-file">components/</span>
+                </div>
+                <div class="fn-body">
+                    <p>Wraps <code>react-youtube</code>. Uses an <code>isRemoteAction</code> ref (boolean) to
+                        distinguish between
+                        user-initiated events and socket-triggered events. When a <code>receive_video_action</code>
+                        comes in, sets
+                        <code>isRemoteAction = true</code>, calls the player API, then sets it back to
+                        <code>false</code> —
+                        preventing the player's own <code>onStateChange</code> from re-emitting the event back to the
+                        server.
+                    </p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">Dashboard.tsx</span>
+                    <span class="fn-file">pages/</span>
+                </div>
+                <div class="fn-body">
+                    <p>The main hub after login. Manages the layout switch between "lobby view" (room list, create/join)
+                        and
+                        "inner room view" (video player + chat). Handles socket connection lifecycle — connects on
+                        mount, stores
+                        socket in context/state, disconnects on unmount.</p>
+                </div>
+            </div>
+            <div class="fn-card">
+                <div class="fn-header">
+                    <span class="fn-name">useDebounce.ts</span>
+                    <span class="fn-file">hooks/</span>
+                </div>
+                <div class="fn-body">
+                    <p>Custom hook that debounces a value by a given delay. Used in the video URL/ID input to prevent
+                        firing
+                        <code>change_video</code> socket events on every keystroke. Only emits after the user stops
+                        typing for the
+                        specified delay (e.g. 500ms).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ 10. DATABASE ═══════════ -->
+        <section class="section" id="db">
+            <div class="section-label">Data Layer</div>
+            <div class="section-title">Database Schemas</div>
+            <div class="section-desc">MongoDB collections and their structure.</div>
+
+            <div class="card-grid cols2">
+                <div class="card">
+                    <div style="font-weight:600;color:var(--green);margin-bottom:12px;font-family:var(--mono)">registers
+                        collection</div>
+                    <pre><code><span class="obj">username</span>:   String  <span class="cm">// unique</span>
+<span class="obj">email</span>:      String  <span class="cm">// unique, for OTP</span>
+<span class="obj">password</span>:   String  <span class="cm">// bcrypt hashed</span>
+<span class="obj">isVerified</span>: Boolean <span class="cm">// OTP completed?</span>
+<span class="obj">createdAt</span>:  Date</code></pre>
+                </div>
+                <div class="card">
+                    <div style="font-weight:600;color:var(--green);margin-bottom:12px;font-family:var(--mono)">
+                        otpverifies
+                        collection</div>
+                    <pre><code><span class="obj">email</span>:     String
+<span class="obj">otp</span>:       String  <span class="cm">// 6-digit code</span>
+<span class="obj">expiresAt</span>: Date    <span class="cm">// TTL ~10 min</span></code></pre>
+                </div>
+                <div class="card" style="grid-column:span 2">
+                    <div style="font-weight:600;color:var(--green);margin-bottom:12px;font-family:var(--mono)">rooms
+                        collection —
+                        core schema</div>
+                    <pre><code><span class="obj">roomId</span>:     String  <span class="cm">// e.g. "CAFE-4821", unique</span>
+<span class="obj">hostId</span>:     ObjectId  <span class="cm">// ref: Register</span>
+<span class="obj">status</span>:     <span class="str">'WAITING'</span> | <span class="str">'ACTIVE'</span> | <span class="str">'CLOSED'</span>
+<span class="obj">users</span>:      [{ userId, role, socketId, username, joinedAt }]
+<span class="obj">videoState</span>: {
+  youtubeId: String,    <span class="cm">// YouTube video ID</span>
+  isPlaying: Boolean,
+  currentTime: Number,  <span class="cm">// seconds</span>
+  lastSyncAt: Date
+}
+<span class="obj">settings</span>:   { maxParticipants, allowChat, isPrivate }
+<span class="obj">expiresAt</span>:  Date  <span class="cm">// TTL index = 24 hours → auto-deleted</span></code></pre>
+                </div>
+            </div>
+
+            <div class="highlight-box info">
+                <h4>Why two separate caches?</h4>
+                <p><strong>roomCache (in-memory)</strong> is used for every seek/heartbeat operation (can be hundreds
+                    per
+                    minute). <strong>MongoDB (disk)</strong> is used for persistence — join/leave events, video changes,
+                    and
+                    status updates. This hybrid approach avoids overwhelming the database while ensuring room state
+                    survives
+                    server restarts (minus the last few unreported seeks).</p>
+            </div>
+        </section>
+
+        <!-- ═══════════ 11. DEPLOYMENT ═══════════ -->
+        <section class="section" id="deployment">
+            <div class="section-label">Production</div>
+            <div class="section-title">Deployment Architecture</div>
+            <div class="section-desc">Frontend on Vercel, Backend on Render, Database on MongoDB Atlas.</div>
+
+            <div class="diagram-wrap">
+                <div class="diagram-title">Production Infrastructure</div>
+                <svg width="100%" viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                            orient="auto-start-reverse">
+                            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </marker>
+                    </defs>
+
+                    <rect x="20" y="60" width="180" height="80" rx="10" fill="rgba(0,0,0,0.03)" stroke="rgba(0,0,0,0.1)"
+                        stroke-width="1" />
+                    <text x="110" y="88" text-anchor="middle" fill="#1a1c1a" font-size="14" font-weight="600"
+                        font-family="system-ui">▲ Vercel</text>
+                    <text x="110" y="106" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">watch-party-eosin</text>
+                    <text x="110" y="122" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">.vercel.app</text>
+                    <text x="110" y="138" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">React SPA
+                        (static CDN)</text>
+
+                    <line x1="200" y1="100" x2="276" y2="100" stroke="#1b4332" stroke-width="2"
+                        marker-end="url(#arr6)" />
+                    <text x="238" y="92" text-anchor="middle" fill="#1b4332" font-size="10"
+                        font-family="system-ui">HTTPS +
+                        WSS</text>
+
+                    <rect x="276" y="40" width="200" height="120" rx="10" fill="rgba(64,145,108,0.04)"
+                        stroke="rgba(64,145,108,0.2)" stroke-width="1" />
+                    <text x="376" y="68" text-anchor="middle" fill="#40916c" font-size="14" font-weight="600"
+                        font-family="system-ui">🟢 Render</text>
+                    <text x="376" y="86" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">watch-party-1-g3mw</text>
+                    <text x="376" y="102" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">.onrender.com</text>
+                    <text x="376" y="120" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">Node.js
+                        server (always-on)</text>
+                    <text x="376" y="136" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">WebSockets
+                        supported natively</text>
+                    <text x="376" y="150" text-anchor="middle" fill="#7a827a" font-size="10" font-family="system-ui">env
+                        vars set
+                        in Render dashboard</text>
+
+                    <line x1="476" y1="100" x2="552" y2="100" stroke="#15803d" stroke-width="2"
+                        marker-end="url(#arr6)" />
+                    <text x="514" y="92" text-anchor="middle" fill="#15803d" font-size="10"
+                        font-family="system-ui">Mongoose</text>
+
+                    <rect x="552" y="60" width="180" height="80" rx="10" fill="rgba(21,128,61,0.04)"
+                        stroke="rgba(21,128,61,0.2)" stroke-width="1" />
+                    <text x="642" y="88" text-anchor="middle" fill="#15803d" font-size="14" font-weight="600"
+                        font-family="system-ui">MongoDB Atlas</text>
+                    <text x="642" y="106" text-anchor="middle" fill="#7a827a" font-size="11"
+                        font-family="system-ui">Cloud-hosted
+                        cluster</text>
+                    <text x="642" y="122" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">Connection
+                        string in .env</text>
+
+                    <!-- Vercel sends email via Render backend → Nodemailer → Gmail SMTP -->
+                    <rect x="750" y="60" width="90" height="60" rx="8" fill="rgba(29,78,216,0.04)"
+                        stroke="rgba(29,78,216,0.15)" stroke-width="0.8" />
+                    <text x="795" y="84" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="600"
+                        font-family="system-ui">📧 Gmail</text>
+                    <text x="795" y="100" text-anchor="middle" fill="#7a827a" font-size="10"
+                        font-family="system-ui">SMTP
+                        (OTP)</text>
+
+                    <line x1="730" y1="90" x2="752" y2="90" stroke="#1d4ed8" stroke-width="1" stroke-dasharray="3,3"
+                        marker-end="url(#arr6)" />
+                </svg>
+            </div>
+
+            <div class="card-grid cols2">
+                <div class="card">
+                    <div style="font-weight:600;margin-bottom:10px;">Frontend — vercel.json</div>
+                    <pre><code>{
+  <span class="str">"rewrites"</span>: [
+    {
+      <span class="str">"source"</span>: <span class="str">"/(.*)"</span>,
+      <span class="str">"destination"</span>: <span class="str">"/index.html"</span>
+    }
+  ]
+}</code></pre>
+                    <div style="color:var(--text2);font-size:13px;margin-top:8px;">SPA redirect — all routes serve
+                        <code>index.html</code> so React Router handles them client-side.
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="font-weight:600;margin-bottom:10px;">Backend env vars (Render)</div>
+                    <pre><code>PORT=<span class="num">3000</span>
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=your_secret
+EMAIL_USER=your@gmail.com
+EMAIL_PASS=app_password
+FRONTEND_URL=https://watch-party-eosin.vercel.app</code></pre>
+                </div>
+            </div>
+
+            <div class="highlight-box warning">
+                <h4>WebSocket on Render — important!</h4>
+                <p>Render supports WebSockets on all plan tiers including free. No special config needed. However,
+                    free-tier
+                    Render services spin down after inactivity. The first connection after spin-down may take 30–60
+                    seconds. For
+                    production demos, use a paid tier or keep the service warm with a ping cron.</p>
+            </div>
+        </section>
+
+        <!-- ═══════════ 12. LOCAL SETUP ═══════════ -->
+        <section class="section" id="setup">
+            <div class="section-label">Getting Started</div>
+            <div class="section-title">Local Setup</div>
+            <div class="section-desc">Run the full stack locally in under 5 minutes.</div>
+
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Clone the repository</h4>
+                        <pre><code>git clone https://github.com/learner-dot-new/watch-party.git
+cd watch-party</code></pre>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Setup Backend</h4>
+                        <pre><code>cd backend
+npm install
+
+<span class="cm"># Create backend/.env</span>
+PORT=3000
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=any_random_secret_string
+EMAIL_USER=youremail@gmail.com
+EMAIL_PASS=your_gmail_app_password
+FRONTEND_URL=http://localhost:5173
+
+npm run dev  <span class="cm"># starts on :3000</span></code></pre>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Setup Frontend</h4>
+                        <pre><code>cd ../frontend
+npm install
+
+<span class="cm"># Create frontend/.env</span>
+VITE_API_URL=http://localhost:3000
+
+npm run dev  <span class="cm"># starts on :5173</span></code></pre>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Open and test</h4>
+                        <p>Visit <code>http://localhost:5173</code>. Sign up with an email (OTP will arrive), create a
+                            room, open a
+                            second browser tab/incognito window, join the same room — test sync by pressing play.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box info">
+                <h4>Gmail App Password (for OTP email)</h4>
+                <p>Go to Google Account → Security → 2-Step Verification → App passwords. Generate a password for
+                    "Mail". Use
+                    that as <code>EMAIL_PASS</code> — your regular Gmail password won't work with Nodemailer.</p>
+            </div>
+        </section>
+
+    </div><!-- /container -->
+
+    <!-- Footer -->
+    <div style="background:var(--bg2);border-top:1px solid var(--border);padding:32px 48px;margin-top:0;">
+        <div
+            style="max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+            <div>
+                <div style="font-weight:600;margin-bottom:4px;">🎬 Watch Party</div>
+                <div style="color:var(--text3);font-size:13px;">Synchronized YouTube co-watching with WebSockets, JWT
+                    auth, and
+                    role-based access.</div>
+            </div>
+            <div style="display:flex;gap:16px;">
+                <a href="https://watch-party-eosin.vercel.app" target="_blank"
+                    style="color:var(--purple-light);font-size:13px;text-decoration:none;">▲ Live App</a>
+                <a href="https://watch-party-1-g3mw.onrender.com" target="_blank"
+                    style="color:var(--teal);font-size:13px;text-decoration:none;">🟢 API Server</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

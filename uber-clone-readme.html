@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uber Project Architecture — Light Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,600;12..96,800&family=Inter:wght@200;400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EAB308;
+            --bg: #FFFFFF;
+            --surface: #F9FAFB;
+            --border: #E5E7EB;
+            --text: #111827;
+            --text-dim: #6B7280;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 80px; text-align: left; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 5rem; font-weight: 800; line-height: 0.9; letter-spacing: -4px; margin-bottom: 20px; }
+        .hero-meta { color: var(--text-dim); display: flex; gap: 30px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+
+        /* Bento Layout */
+        .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 40px; position: relative; }
+        .card h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2rem; margin-bottom: 24px; letter-spacing: -1px; }
+
+        .span-8 { grid-column: span 8; }
+        .span-4 { grid-column: span 4; }
+        .span-12 { grid-column: span 12; }
+
+        /* Visualization */
+        .viz { height: 350px; background: #FFF; border: 1px solid var(--border); border-radius: 4px; margin: 20px 0; display: flex; align-items: center; justify-content: center; position: relative; }
+        .pulse { position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, rgba(234, 179, 8, 0.1) 0%, transparent 70%); border-radius: 50%; }
+
+        /* Logic Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid var(--bg); color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; }
+        td { padding: 20px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .mono { font-family: 'JetBrains Mono', monospace; color: var(--text); font-weight: 600; background: #F3F4F6; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
+
+        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+        .feature-item { border-left: 3px solid var(--primary); padding-left: 20px; }
+        .feature-item h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .feature-item p { font-size: 0.9rem; color: var(--text-dim); }
+
+        @media (max-width: 1000px) {
+            h1 { font-size: 3rem; }
+            .span-8, .span-4 { grid-column: span 12; }
+            .feature-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="hero-meta">
+                <span>Production Grade</span>
+                <span>Real-Time Events</span>
+                <span>Optimized Discovery</span>
+            </div>
+            <h1>Uber<br/><span style="color: var(--primary)">Architected.</span></h1>
+            <p style="font-size: 1.25rem; color: var(--text-dim); font-weight: 300; max-width: 700px; margin-top: 20px;">Deep investigation into the ride-lifecycle mechanics, geospatial querying, and WebSocket multi-casting of a distributed transportation engine.</p>
+        </header>
+
+        <div class="bento">
+            <div class="card span-8">
+                <h2>01 Engine Overview</h2>
+                <p style="font-size: 1.1rem; font-weight: 300; color: var(--text-dim);">The core infrastructure handles bipartite matching between users and captains. It implements a **Location-Aware Dispatch Logic** that calculates real-time proximity and vehicle-specific fare matrices.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>Geospatial Search</h3>
+                        <p>Locates captains using the $geoNear MongoDB aggregation for minimal latency in high-density areas.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Signal Clustering</h3>
+                        <p>Broadcasts 'new-ride' events exclusively to offline captains within a specific geographical shard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card span-4">
+                <h2>02 Core Stack</h2>
+                <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                        <span>Framework</span><strong>Exp/Node</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                        <span>Sockets</span><strong>Socket.io</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                        <span>Database</span><strong>MongoDB</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                        <span>Map Provider</span><strong>Google API</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card span-12">
+                <h2>03 Pub/Sub WebSocket Architecture</h2>
+                <div class="viz">
+                    <div class="pulse"></div>
+                    <svg width="600" height="200" viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="30" stroke="#000" stroke-width="2"/>
+                        <text x="100" y="105" text-anchor="middle" fill="#000" font-size="10">USER</text>
+                        
+                        <path d="M130 100L470 100" stroke="#000" stroke-width="2" stroke-dasharray="8 4"/>
+                        <circle cx="500" cy="100" r="30" stroke="#000" stroke-width="2"/>
+                        <text x="500" y="105" text-anchor="middle" fill="#000" font-size="10">CAPTAIN</text>
+                        
+                        <rect x="250" y="80" width="100" height="40" rx="4" fill="#EAB308" fill-opacity="0.1" stroke="#EAB308"/>
+                        <text x="300" y="105" text-anchor="middle" fill="#EAB308" font-weight="700" font-size="10">SOCKET.IO</text>
+                    </svg>
+                </div>
+                <p style="text-align: center; font-size: 0.85rem; color: var(--text-dim);">Broadcasting Flow: <code>createRide</code> triggers radius search, fetching SocketIDs, then pushes <code>emit('new-ride')</code> targeting specific captains.</p>
+            </div>
+
+            <div class="card span-12">
+                <h2>04 Critical Function Reference</h2>
+                <table>
+                    <thead>
+                        <tr><th>Category</th><th>Primary Function</th><th>System Responsibility</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Finance</strong></td><td class="mono">getFare(pickup, dest)</td><td>Uses Map Matrix data to apply distance/time rates for Auto (1.2x), Moto (0.8x), and Cars (1.5x).</td></tr>
+                        <tr><td><strong>Discovery</strong></td><td class="mono">getCaptainsInRange(...)</td><td>Executes the radial geospatial query against the online captain collection.</td></tr>
+                        <tr><td><strong>Security</strong></td><td class="mono">startRide(rideId, otp)</td><td>Mandates a strict 6-digit OTP handshake before ride status transition to 'ongoing'.</td></tr>
+                        <tr><td><strong>Signaling</strong></td><td class="mono">sendMessageToSocketId</td><td>Mapping utility used to translate internal UserIDs to transient socket connection strings.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card span-12">
+                <h2>05 Ride Lifecycle States</h2>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                    <div style="background: var(--bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--primary);">PENDING</strong><br/>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">Searching captains.</span>
+                    </div>
+                    <div style="background: var(--bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--primary);">ACCEPTED</strong><br/>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">Captain matched.</span>
+                    </div>
+                    <div style="background: var(--bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--primary);">ONGOING</strong><br/>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">Live tracking active.</span>
+                    </div>
+                    <div style="background: var(--bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--primary);">COMPLETED</strong><br/>
+                        <span style="font-size: 0.8rem; color: var(--text-dim);">Billing archived.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 100px; text-align: center; color: var(--text-dim); font-size: 0.8rem; padding: 40px 0;">
+            Ride Engine Technical Documentation | 2026
+        </footer>
+    </div>
+</body>
+</html>

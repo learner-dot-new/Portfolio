@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodReels Technical Architecture — Light Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E11D48;
+            --secondary: #9F1239;
+            --bg: #FFFBFB;
+            --surface: #FFFFFF;
+            --border: #FFE4E6;
+            --text: #111827;
+            --text-dim: #4B5563;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 100px; position: relative; border-left: 8px solid var(--primary); padding-left: 40px; }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: 5rem; line-height: 0.9; margin-bottom: 20px; text-transform: uppercase; letter-spacing: -2px; }
+        .hero-desc { font-size: 1.5rem; font-weight: 200; color: var(--text-dim); max-width: 600px; }
+
+        /* Bento Grid */
+        .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px; box-shadow: 0 4px 20px rgba(225, 29, 72, 0.05); }
+        .span-12 { grid-column: span 12; }
+        .span-8 { grid-column: span 8; }
+        .span-4 { grid-column: span 4; }
+
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; margin-bottom: 30px; letter-spacing: -1px; }
+
+        /* Diagrams */
+        .dia { background: #FFFFFF; border-radius: 16px; padding: 40px; margin: 20px 0; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+
+        /* Function Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 15px; border-bottom: 2px solid var(--bg); color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; }
+        td { padding: 20px 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        .func-code { color: var(--primary); font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.9rem; }
+
+        .feature-stack { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px; }
+        .feature-box { border-left: 3px solid var(--primary); padding-left: 20px; }
+        .feature-box strong { display: block; margin-bottom: 6px; font-size: 1.1rem; }
+        .feature-box p { font-size: 0.9rem; color: var(--text-dim); }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .tag { background: #FFF1F2; color: var(--primary); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; border: 1px solid #FFE4E6; }
+
+        @media (max-width: 1100px) {
+            h1 { font-size: 3.5rem; }
+            .span-8, .span-4 { grid-column: span 12; }
+            .feature-stack { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FoodReels.<br/><span style="color: var(--primary)">Infinite Feed.</span></h1>
+            <p class="hero-desc">Detailed investigation into the ingestion, scaling, and social mechanics of a high-performance video discovery engine.</p>
+        </header>
+
+        <div class="bento">
+            <div class="card span-8">
+                <h2>01 Architecture Vision</h2>
+                <p style="font-size: 1.1rem; font-weight: 300; color: var(--text-dim); line-height: 1.8;">FoodReels bridges the gap between culinary partners and consumers through a specialized **Video Metadata Engine**. It prioritizes zero-lag vertical scrolling and asynchronous media processing to ensure mobile fluidity.</p>
+                <div class="feature-stack">
+                    <div class="feature-box">
+                        <strong>Atomic Engagement</strong>
+                        <p>Likes and Saves are managed via non-blocking database increments to ensure consistency under heavy volume.</p>
+                    </div>
+                    <div class="feature-box">
+                        <strong>CDN-First Storage</strong>
+                        <p>Offloads binary heavy-lifting to ImageKit, maintaining a lean and fast RESTful API core.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card span-4">
+                <h2>02 Tech Stack</h2>
+                <div class="tag-list">
+                    <span class="tag">Next / React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">Express</span>
+                    <span class="tag">MongoDB</span>
+                    <span class="tag">ImageKit</span>
+                    <span class="tag">Multer</span>
+                    <span class="tag">UUID V4</span>
+                    <span class="tag">Axios</span>
+                </div>
+                <p style="margin-top: 30px; font-size: 0.85rem; color: var(--text-dim);">A distributed MERN stack variant optimized for large-scale media content delivery.</p>
+            </div>
+
+            <div class="card span-12">
+                <h2>03 Media Ingestion Lifecycle</h2>
+                <div class="dia">
+                    <svg width="1000" height="200" viewBox="0 0 1000 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="70" width="140" height="80" rx="4" stroke="var(--primary)" stroke-width="2"/>
+                        <text x="120" y="115" text-anchor="middle" fill="#000" font-weight="700">CLIENT APP</text>
+                        
+                        <path d="M190 110L280 110" stroke="#FF4D4D" stroke-width="2" stroke-dasharray="10 5"/>
+                        
+                        <rect x="280" y="70" width="200" height="80" rx="4" stroke="#000" stroke-width="2"/>
+                        <text x="380" y="115" text-anchor="middle" fill="#000" font-weight="700">API ROUTE</text>
+
+                        <path d="M480 110L570 110" stroke="#FF4D4D" stroke-width="2" stroke-dasharray="10 5"/>
+                        
+                        <rect x="570" y="70" width="160" height="80" rx="4" stroke="#000" stroke-width="2"/>
+                        <text x="650" y="115" text-anchor="middle" fill="#000" font-weight="700">IMAGEKIT</text>
+
+                        <path d="M730 110L820 110" stroke="#E11D48" stroke-width="2"/>
+
+                        <rect x="820" y="70" width="130" height="80" rx="4" stroke="var(--primary)" stroke-width="2"/>
+                        <text x="885" y="115" text-anchor="middle" fill="#000" font-weight="700">MONGODB</text>
+                    </svg>
+                </div>
+                <p style="text-align: center; font-size: 0.85rem; color: var(--text-dim);">Pipeline: Multer Middleware -> Memory Buffer -> ImageKit Ingestion -> URL Persistence.</p>
+            </div>
+
+            <div class="card span-12">
+                <h2>04 Execution Layer Reference</h2>
+                <table>
+                    <thead>
+                        <tr><th>Source</th><th>Critical Function</th><th>System Responsibility</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Food Control</td><td class="func-code">createFood(req, res)</td><td>The ingestion orchestrator. Validates binary video data and handles the cloud storage handshake.</td></tr>
+                        <tr><td>Feed Control</td><td class="func-code">getFoodItems()</td><td>Retrieves the global discovery array with optimized population for associated partner metadata.</td></tr>
+                        <tr><td>Social Logic</td><td class="func-code">likeFood(user, foodId)</td><td>Executes atomic increments in the food collection while maintaining specific user mapping.</td></tr>
+                        <tr><td>Archive Logic</td><td class="func-code">getSaveFood(user)</td><td>Handles personal bookmarking retrieval via deep population of saved dish objects.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card span-12">
+                <h2>05 Performance Engineering</h2>
+                <div class="feature-stack">
+                    <div class="feature-box">
+                        <strong>Viewport Intersection</strong>
+                        <p>The frontend implements specialized listeners to ensure videos only consume network bandwidth when visible.</p>
+                    </div>
+                    <div class="feature-box">
+                        <strong>Schema Denormalization</strong>
+                        <p>Engagement counters are stored atomically within the primary food documents for sub-millisecond retrieval speeds.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 100px; text-align: center; color: var(--text-dim); font-size: 0.8rem; padding: 40px 0;">
+            FoodReels Technical Guide | Vijay Pooniya
+        </footer>
+    </div>
+</body>
+</html>
