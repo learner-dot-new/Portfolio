@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaatKro — Technical Documentation & Architecture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-light: #A78BFA;
+            --primary-dark: #6D28D9;
+            --secondary: #10B981;
+            --secondary-dark: #059669;
+            --bg-dark: #0B0F1A;
+            --card-bg: rgba(23, 28, 45, 0.8);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #F1F5F9;
+            --text-dim: #94A3B8;
+            --accent: #F43F5E;
+            --warning: #F59E0B;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, rgba(11, 15, 26, 1) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 1.75rem;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .title {
+            font-size: 5rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom right, #FFFFFF, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-weight: 300;
+        }
+
+        .badges {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--glass);
+            padding: 0.6rem 1.25rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            border: 1px solid var(--card-border);
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            border-color: var(--primary);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--card-border);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 8rem 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-dim);
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        /* --- Architecture Layered View --- */
+        .layer-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .layer {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .layer::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: -1.5rem;
+            width: 2px;
+            height: 1.5rem;
+            background: var(--card-border);
+        }
+
+        .layer:first-child::before { display: none; }
+
+        .layer-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .layer-title i { color: var(--primary); }
+
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .comp-card {
+            background: rgba(255,255,255,0.02);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .comp-card h4 {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .comp-card p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* --- Diagrams (SVG Based) --- */
+        .diagram-container {
+            background: #0D1117;
+            border: 1px solid var(--card-border);
+            border-radius: 2rem;
+            padding: 3rem;
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sequence-svg {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+        }
+
+        /* --- Database Section --- */
+        .db-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .db-table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .db-table-header {
+            background: rgba(255,255,255,0.03);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .db-table-body {
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .field-name { font-family: 'Fira Code', monospace; color: var(--secondary); }
+        .field-type { color: var(--primary-light); opacity: 0.8; }
+
+        /* --- Room States --- */
+        .state-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .state-flow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--card-border);
+            z-index: 0;
+        }
+
+        .state-node {
+            background: var(--bg-dark);
+            border: 2px solid var(--card-border);
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .state-node.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .state-node h4 { margin-top: 0.5rem; font-size: 1rem; }
+
+        /* --- Code & Implementation --- */
+        .code-block {
+            background: #000;
+            border-radius: 1rem;
+            padding: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #E2E8F0;
+            position: relative;
+            border: 1px solid #1a1a1a;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 2rem;
+            background: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0 0 8px 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 6rem 0;
+            text-align: center;
+            color: var(--text-dim);
+            border-top: 1px solid var(--card-border);
+        }
+
+        @media (max-width: 992px) {
+            .db-grid { grid-template-columns: 1fr; }
+            .title { font-size: 3.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .state-flow { flex-direction: column; gap: 3rem; }
+            .state-flow::after { display: none; }
+            .section-title { font-size: 2.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+
+    <nav class="nav-dots">
+        <a href="#overview" class="nav-dot active" title="Overview"></a>
+        <a href="#architecture" class="nav-dot" title="Architecture"></a>
+        <a href="#auth-flow" class="nav-dot" title="Auth Flow"></a>
+        <a href="#real-time" class="nav-dot" title="Real-time Core"></a>
+        <a href="#database" class="nav-dot" title="Data Schema"></a>
+        <a href="#economy" class="nav-dot" title="Economy"></a>
+        <a href="#social" class="nav-dot" title="Networking"></a>
+        <a href="#matching" class="nav-dot" title="Matching Logic"></a>
+        <a href="#moderation" class="nav-dot" title="Moderation"></a>
+    </nav>
+
+    <header id="overview">
+        <div class="container">
+            <div class="logo-container">
+                <i data-lucide="mic-vocal" size="56" color="#fff"></i>
+            </div>
+            <h1 class="title">BaatKro</h1>
+            <p class="tagline">A High-Fidelity Infrastructure for Real-Time Social Audio, Video, and Community Interactivity.</p>
+            <div class="badges">
+                <div class="badge"><i data-lucide="smartphone"></i> React Native 0.84</div>
+                <div class="badge"><i data-lucide="server"></i> Node.js 22.11 LTS</div>
+                <div class="badge"><i data-lucide="database"></i> MongoDB Atlas</div>
+                <div class="badge"><i data-lucide="zap"></i> Socket.io 4.8</div>
+                <div class="badge"><i data-lucide="shield"></i> JWT + Bcrypt</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- --- Architecture Section --- -->
+        <section id="architecture">
+            <div class="section-header">
+                <span class="section-tag">System Design</span>
+                <h2 class="section-title"><i data-lucide="layers"></i> Multi-Tier Architecture</h2>
+                <p class="section-desc">A modular approach separating visual presentation, core logic, and persistent state management.</p>
+            </div>
+
+            <div class="layer-box">
+                <!-- Presentation Layer -->
+                <div class="layer">
+                    <div class="layer-title">
+                        <i data-lucide="monitor-smartphone"></i>
+                        <h3>Presentation Layer (Clients)</h3>
+                    </div>
+                    <div class="comp-grid">
+                        <div class="comp-card">
+                            <h4>Mobile Native (User Facing)</h4>
+                            <p>Cross-platform iOS/Android app built with modern React Native components.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">WebRTC</span>
+                                <span class="tech-tag">Socket.io-Client</span>
+                                <span class="tech-tag">Reanimated 3</span>
+                            </div>
+                        </div>
+                        <div class="comp-card">
+                            <h4>Admin Dashboard (Web)</h4>
+                            <p>Analytics and moderation portal for platform operators.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">React 19</span>
+                                <span class="tech-tag">Vite 8</span>
+                                <span class="tech-tag">Framer Motion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Layer -->
+                <div class="layer">
+                    <div class="layer-title">
+                        <i data-lucide="cpu"></i>
+                        <h3>Application Layer (Core API)</h3>
+                    </div>
+                    <div class="comp-grid">
+                        <div class="comp-card">
+                            <h4>Signaling Server</h4>
+                            <p>Facilitates WebRTC peer identification and state sync via WebSockets.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">Socket.io</span>
+                                <span class="tech-tag">Namespace Partitioning</span>
+                            </div>
+                        </div>
+                        <div class="comp-card">
+                            <h4>Business Logic (REST)</h4>
+                            <p>Handled via Express controllers with JWT-based protection.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">Express 5</span>
+                                <span class="tech-tag">Multer Storage</span>
+                                <span class="tech-tag">Brevo Mailer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Layer -->
+                <div class="layer">
+                    <div class="layer-title">
+                        <i data-lucide="database"></i>
+                        <h3>Data & Storage Layer</h3>
+                    </div>
+                    <div class="comp-grid">
+                        <div class="comp-card">
+                            <h4>MongoDB Cluster</h4>
+                            <p>Primary document store for users, rooms, and social graph.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">Mongoose 9</span>
+                                <span class="tech-tag">Geospatial Indexing</span>
+                            </div>
+                        </div>
+                        <div class="comp-card">
+                            <h4>File Assets</h4>
+                            <p>Static storage for user avatars and media uploads.</p>
+                            <div class="tech-list">
+                                <span class="tech-tag">Local FS</span>
+                                <span class="tech-tag">ImageKit CDN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Auth Flow Section --- -->
+        <section id="auth-flow">
+            <div class="section-header">
+                <span class="section-tag">Security</span>
+                <h2 class="section-title"><i data-lucide="lock"></i> Authentication Lifecycle</h2>
+                <p class="section-desc">BaatKro ensures secure access through a hybrid of OTP, Social OAuth, and Stateless JWT tokens.</p>
+            </div>
+
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 400" class="sequence-svg">
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                            <path d="M0,0 L10,5 L0,10 Z" fill="#8B5CF6" />
+                        </marker>
+                    </defs>
+                    <!-- Participants -->
+                    <rect x="50" y="20" width="100" height="40" rx="10" fill="var(--card-bg)" stroke="var(--primary)" />
+                    <text x="100" y="45" text-anchor="middle" fill="#fff" font-size="12">Mobile Client</text>
+                    <line x1="100" y1="60" x2="100" y2="380" stroke="var(--card-border)" stroke-dasharray="5,5" />
+
+                    <rect x="350" y="20" width="100" height="40" rx="10" fill="var(--card-bg)" stroke="var(--primary)" />
+                    <text x="400" y="45" text-anchor="middle" fill="#fff" font-size="12">Node API</text>
+                    <line x1="400" y1="60" x2="400" y2="380" stroke="var(--card-border)" stroke-dasharray="5,5" />
+
+                    <rect x="650" y="20" width="100" height="40" rx="10" fill="var(--card-bg)" stroke="var(--primary)" />
+                    <text x="700" y="45" text-anchor="middle" fill="#fff" font-size="12">Brevo/SMTP</text>
+                    <line x1="700" y1="60" x2="700" y2="380" stroke="var(--card-border)" stroke-dasharray="5,5" />
+
+                    <!-- Messages -->
+                    <line x1="100" y1="100" x2="390" y2="100" stroke="var(--primary)" marker-end="url(#arrow)" />
+                    <text x="250" y="95" text-anchor="middle" fill="var(--text-dim)" font-size="10">POST /api/auth/register (Email)</text>
+                    
+                    <line x1="400" y1="130" x2="690" y2="130" stroke="var(--secondary)" marker-end="url(#arrow)" />
+                    <text x="550" y="125" text-anchor="middle" fill="var(--text-dim)" font-size="10">Send OTP Email</text>
+
+                    <line x1="100" y1="180" x2="390" y2="180" stroke="var(--primary)" marker-end="url(#arrow)" />
+                    <text x="250" y="175" text-anchor="middle" fill="var(--text-dim)" font-size="10">POST /api/auth/verify-otp (Code)</text>
+
+                    <line x1="400" y1="230" x2="110" y2="230" stroke="var(--secondary)" marker-end="url(#arrow)" />
+                    <text x="250" y="225" text-anchor="middle" fill="var(--secondary)" font-size="10">HTTP 200 (isVerified: true)</text>
+
+                    <line x1="100" y1="280" x2="390" y2="280" stroke="var(--primary)" marker-end="url(#arrow)" />
+                    <text x="250" y="275" text-anchor="middle" fill="var(--text-dim)" font-size="10">POST /api/auth/set-password</text>
+
+                    <line x1="400" y1="330" x2="110" y2="330" stroke="var(--secondary)" marker-end="url(#arrow)" />
+                    <text x="250" y="325" text-anchor="middle" fill="var(--primary-light)" font-size="10">Return JWT Token</text>
+                </svg>
+            </div>
+        </section>
+
+        <!-- --- Real-Time Core Section --- -->
+        <section id="real-time">
+            <div class="section-header">
+                <span class="section-tag">Infrastructure</span>
+                <h2 class="section-title"><i data-lucide="zap"></i> Real-Time Signaling Core</h2>
+                <p class="section-desc">The backbone of BaatKro connectivity, handling thousands of concurrent events and media streams.</p>
+            </div>
+
+            <div class="db-grid">
+                <div>
+                    <h3>Room Lifecycle States</h3>
+                    <div class="state-flow">
+                        <div class="state-node">
+                            <i data-lucide="calendar"></i>
+                            <h4>Scheduled</h4>
+                        </div>
+                        <div class="state-node active">
+                            <i data-lucide="play-circle"></i>
+                            <h4>Live</h4>
+                        </div>
+                        <div class="state-node">
+                            <i data-lucide="archive"></i>
+                            <h4>Ended</h4>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-dim); font-size: 0.95rem;">
+                        Rooms transition through these persistent states. When a host initiates a <strong>Live</strong> state, the signaling engine starts mapping users to the room's exclusive socket namespace.
+                    </p>
+                </div>
+                <div>
+                    <h3>Signaling Logic (WebRTC)</h3>
+                    <div class="code-block">
+                        <div class="code-label">Socket Event</div>
+<pre>
+socket.on('webrtc-offer', ({ target, offer, roomId }) => {
+    io.to(target).emit('webrtc-offer', {
+        offer,
+        caller: socket.id,
+        callerInfo: roomUsers[roomId]?.[socket.id]
+    });
+});
+</pre>
+                    </div>
+                    <p style="margin-top: 1.5rem; color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Mesh Topology:</strong> For low-latency 1-on-1 matches (Spaces), we use a direct mesh topology. For larger rooms, the client orchestrates multi-peer connections or utilizes an SFU bridge.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Database Schema Section --- -->
+        <section id="database">
+            <div class="section-header">
+                <span class="section-tag">Persistence</span>
+                <h2 class="section-title"><i data-lucide="database"></i> Data Modeling</h2>
+                <p class="section-desc">Highly indexed MongoDB schema designed for rapid social graph traversal and room state retrieval.</p>
+            </div>
+
+            <div class="db-grid">
+                <!-- User Schema -->
+                <div class="db-table-card">
+                    <div class="db-table-header">
+                        <h4>User Model</h4>
+                        <span class="badge">Collection: users</span>
+                    </div>
+                    <div class="db-table-body">
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Type</th><th>Index</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="field-name">username</td><td class="field-type">String</td><td>Unique</td></tr>
+                                <tr><td class="field-name">email</td><td class="field-type">String</td><td>Unique</td></tr>
+                                <tr><td class="field-name">wallet</td><td class="field-type">Number</td><td>-</td></tr>
+                                <tr><td class="field-name">isOnline</td><td class="field-type">Boolean</td><td>Sparse</td></tr>
+                                <tr><td class="field-name">followers</td><td class="field-type">Array[ID]</td><td>Ref: User</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Room Schema -->
+                <div class="db-table-card">
+                    <div class="db-table-header">
+                        <h4>Room Model</h4>
+                        <span class="badge">Collection: rooms</span>
+                    </div>
+                    <div class="db-table-body">
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Type</th><th>Index</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="field-name">title</td><td class="field-type">String</td><td>Text</td></tr>
+                                <tr><td class="field-name">host</td><td class="field-type">ObjectId</td><td>Ref: User</td></tr>
+                                <tr><td class="field-name">roomType</td><td class="field-type">Enum</td><td>Audio/Video</td></tr>
+                                <tr><td class="field-name">isActive</td><td class="field-type">Boolean</td><td>Composite</td></tr>
+                                <tr><td class="field-name">entryPrice</td><td class="field-type">Number</td><td>-</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Economy Section --- -->
+        <section id="economy">
+            <div class="section-header">
+                <span class="section-tag">Monetization</span>
+                <h2 class="section-title"><i data-lucide="gem"></i> Economic Loop</h2>
+                <p class="section-desc">Facilitating a creator economy through virtual gifts, entry fees, and transparent earning dashboards.</p>
+            </div>
+
+            <div class="comp-grid">
+                <div class="comp-card" style="border-top: 4px solid var(--secondary);">
+                    <h3>Virtual Transfers</h3>
+                    <p>Users can send gifts to speakers in real-time, instantly updating the recipient's <code>earnings</code> field.</p>
+                </div>
+                <div class="comp-card" style="border-top: 4px solid var(--primary);">
+                    <h3>Access Control</h3>
+                    <p>Private and exclusive rooms implement a pre-join balance check, ensuring only paying listeners can enter the stream.</p>
+                </div>
+                <div class="comp-card" style="border-top: 4px solid var(--warning);">
+                    <h3>Creator Dashboard</h3>
+                    <p>Analytical view for hosts to track historical earnings and participant engagement metrics.</p>
+                </div>
+            </div>
+        </section>
+        <!-- --- Social Graph & Messaging --- -->
+        <section id="social">
+            <div class="section-header">
+                <span class="section-tag">Networking</span>
+                <h2 class="section-title"><i data-lucide="share-2"></i> Social Graph & Messaging</h2>
+                <p class="section-desc">Managing complex relationships and high-frequency message delivery via Socket.io partitioned rooms.</p>
+            </div>
+
+            <div class="db-grid">
+                <div>
+                    <h3>Follower Synchronization</h3>
+                    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">
+                        BaatKro uses a "Global Registration" event on socket connection to map <code>userId → socketId</code>. 
+                    </p>
+                    <div class="code-block">
+                        <div class="code-label">Socket Event</div>
+<pre>
+socket.on('register-user', (userId) => {
+    connectedUsers[userId] = socket.id;
+    // Updates online status in real-time
+});
+</pre>
+                    </div>
+                </div>
+                <div>
+                    <h3>Direct Message Routing</h3>
+                    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">
+                        Messages are routed through specific <code>conversationId</code> namespaces. If the receiver is offline, the system falls back to push notifications.
+                    </p>
+                    <div class="tech-list">
+                        <span class="tech-tag">Auto-Room Join</span>
+                        <span class="tech-tag">Persistence First</span>
+                        <span class="tech-tag">Notification Callback</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Spaces Algorithm Deep Dive --- -->
+        <section id="matching">
+            <div class="section-header">
+                <span class="section-tag">Algorithm</span>
+                <h2 class="section-title"><i data-lucide="cpu"></i> Match-Making Engine</h2>
+                <p class="section-desc">The logic behind "Spaces" 1-on-1 discovery, prioritizing compatibility and safety.</p>
+            </div>
+
+            <div class="db-grid">
+                <div>
+                    <h4>Queue Management</h4>
+                    <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 1rem;">
+                        A global <code>spacesQueue</code> stores candidates. The engine iterates through the queue using a <strong>Weighted Matching Score</strong>.
+                    </p>
+                    <ul style="margin-top: 1.5rem; list-style: none; color: var(--text-dim); font-size: 0.85rem;">
+                        <li><i data-lucide="check" size="14" color="var(--secondary)"></i> Interest Intersection: +2 pts per match</li>
+                        <li><i data-lucide="check" size="14" color="var(--secondary)"></i> Language Fluency: +1 pt match</li>
+                        <li><i data-lucide="x" size="14" color="var(--accent)"></i> Gender Mismatch: Immediate disqualification</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block">
+                        <div class="code-label">logic/matching.js</div>
+<pre>
+// Compatibility Iteration
+for (let i = 0; i < queue.length; i++) {
+    const candidate = queue[i];
+    if (genderPref !== 'All' && 
+        candidate.gender !== genderPref) continue;
+    
+    let score = calculateScore(user, candidate);
+    if (score > threshold) return candidate;
+}
+</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Moderation Section --- -->
+        <section id="moderation">
+            <div class="section-header">
+                <span class="section-tag">Governance</span>
+                <h2 class="section-title"><i data-lucide="shield-alert"></i> Moderation & Safety</h2>
+                <p class="section-desc">A professional suite of tools for maintaining community standards and safety.</p>
+            </div>
+
+            <div class="comp-grid">
+                <div class="comp-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i data-lucide="hammer" color="var(--accent)"></i>
+                        <h4 style="margin: 0;">Real-time Suspension</h4>
+                    </div>
+                    <p>Admins can force-terminate any room or block users instantly. Blocking triggers a <code>socket.disconnect()</code> and persistent database flag.</p>
+                </div>
+                <div class="comp-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i data-lucide="flag" color="var(--warning)"></i>
+                        <h4 style="margin: 0;">Reporting Pipeline</h4>
+                    </div>
+                    <p>Users can file reports against rooms or profiles. Reports are aggregated in the <strong>Admin Hub</strong> with context snapshots (room type, host, time).</p>
+                </div>
+                <div class="comp-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i data-lucide="megaphone" color="var(--primary)"></i>
+                        <h4 style="margin: 0;">Admin Warnings</h4>
+                    </div>
+                    <p>Send direct, non-ignorable warnings to users in active rooms. Warnings are delivered via a high-priority socket event <code>admin-warning</code>.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 BaatKro Project • Architecture v1.1.0</p>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-dim);">Designed for high-scale social interactions.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Simple Waypoint tracking for Nav Dots
+        const sections = document.querySelectorAll('section, header');
+        const dots = document.querySelectorAll('.nav-dot');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('href').includes(current)) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

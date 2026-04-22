@@ -69,7 +69,13 @@ const Projects = () => {
         {projects.map((project, index) => (
           <Card
             key={project.id}
-            onClick={() => navigate(`/projects/${project.id}`)}
+            onClick={() => {
+              if (project.isExternal && project.externalLink) {
+                window.open(project.externalLink, '_blank');
+              } else {
+                navigate(`/projects/${project.id}`);
+              }
+            }}
             className={`animate-fade-in-up stagger-${index + 1}`}
             sx={{
               cursor: 'pointer',

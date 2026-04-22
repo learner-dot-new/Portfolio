@@ -208,31 +208,48 @@ const ProjectDetail = () => {
         className="animate-fade-in-up stagger-5"
         sx={{
           display: 'flex',
+          flexWrap: 'wrap',
           gap: 2,
           opacity: 0,
           animationFillMode: 'forwards',
         }}
       >
+        {project.readmePath && (
+          <Button
+            variant="outlined"
+            onClick={() => window.open(project.readmePath, '_blank')}
+            sx={{ 
+              px: 3, 
+              color: '#00ff66', 
+              borderColor: 'rgba(0, 255, 102, 0.3)',
+              '&:hover': { borderColor: '#00ff66', backgroundColor: 'rgba(0, 255, 102, 0.05)' }
+            }}
+          >
+            Project Case Study
+          </Button>
+        )}
+        
         {project.githubLink && (
           <Button
             variant="outlined"
             href={project.githubLink}
             target="_blank"
             startIcon={<GitHubIcon />}
-            sx={{ px: 3 }}
+            sx={{ px: 3, color: '#888', borderColor: '#222' }}
           >
-            View Source Code
+            Source Code
           </Button>
         )}
+
         {project.liveLink && (
           <Button
-            variant="contained"
+            variant="outlined"
             href={project.liveLink}
             target="_blank"
             startIcon={<ArrowOutwardIcon />}
-            sx={{ px: 3 }}
+            sx={{ px: 3, color: '#fff', borderColor: '#333' }}
           >
-            View Live
+            Live Demo
           </Button>
         )}
       </Box>

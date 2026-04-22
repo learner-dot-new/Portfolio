@@ -1,7 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useState } from "react";
+import ConnectModal from "./ConnectModal";
 
 const HeroSection = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -54,9 +58,10 @@ const HeroSection = () => {
           maxWidth: '900px',
         }}
       >
-        {/* Status Indicator */}
+        {/* Status Indicator (Clickable Badge) */}
         <Box
           className="animate-fade-in-up"
+          onClick={() => setModalOpen(true)}
           sx={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -65,8 +70,15 @@ const HeroSection = () => {
             px: '16px',
             py: '8px',
             borderRadius: '40px',
-            border: '1px solid #1a1a1a',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             backgroundColor: 'rgba(10, 10, 10, 0.6)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              borderColor: 'rgba(0, 255, 102, 0.3)',
+              backgroundColor: 'rgba(0, 255, 102, 0.05)',
+              transform: 'translateY(-2px)',
+            },
           }}
         >
           <Box
@@ -90,6 +102,9 @@ const HeroSection = () => {
             Available for opportunities
           </Typography>
         </Box>
+
+        {/* Connect Modal */}
+        <ConnectModal open={modalOpen} onClose={() => setModalOpen(false)} />
 
         {/* Main Heading */}
         <Typography
