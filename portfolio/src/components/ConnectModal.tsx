@@ -14,14 +14,16 @@ const ConnectModal = ({ open, onClose }: ConnectModalProps) => {
       onClose={onClose}
       maxWidth="xs"
       fullWidth
-      PaperProps={{
-        sx: {
-          backgroundColor: '#050505',
-          backgroundImage: 'none',
-          borderRadius: '24px',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          p: 2,
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+      slotProps={{
+        paper: {
+          sx: {
+            backgroundColor: '#050505',
+            backgroundImage: 'none',
+            borderRadius: '24px',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            p: 2,
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+          }
         }
       }}
     >

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, CircularProgress, Alert, MenuItem, Select, InputBase, SelectChangeEvent } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress, Alert, MenuItem, Select, InputBase, type SelectChangeEvent } from '@mui/material';
 
 const ConnectForm = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -53,7 +53,7 @@ const ConnectForm = () => {
           variant="standard"
           value={formData.name}
           onChange={handleChange}
-          InputProps={{ disableUnderline: true }}
+          slotProps={{ input: { disableUnderline: true } }}
           sx={{
             '& .MuiInputBase-root': { 
               color: '#fff', 
@@ -86,7 +86,7 @@ const ConnectForm = () => {
           variant="standard"
           value={formData.email}
           onChange={handleChange}
-          InputProps={{ disableUnderline: true }}
+          slotProps={{ input: { disableUnderline: true } }}
           sx={{
             '& .MuiInputBase-root': { 
               color: '#fff', 
@@ -138,21 +138,23 @@ const ConnectForm = () => {
               borderRight: '1px solid rgba(255,255,255,0.05)',
             }} />}
             MenuProps={{
-              PaperProps: {
-                sx: {
-                  backgroundColor: '#0a0a0a',
-                  color: '#fff',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '12px',
-                  mt: 1,
-                  maxHeight: 300,
-                  '& .MuiMenuItem-root': {
-                    fontSize: '0.85rem',
-                    py: 1.5,
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      backgroundColor: 'rgba(0, 255, 102, 0.05)',
-                      color: '#00ff66'
+              slotProps: {
+                paper: {
+                  sx: {
+                    backgroundColor: '#0a0a0a',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    mt: 1,
+                    maxHeight: 300,
+                    '& .MuiMenuItem-root': {
+                      fontSize: '0.85rem',
+                      py: 1.5,
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        backgroundColor: 'rgba(0, 255, 102, 0.05)',
+                        color: '#00ff66'
+                      }
                     }
                   }
                 }
@@ -187,7 +189,7 @@ const ConnectForm = () => {
             variant="standard"
             value={formData.phone}
             onChange={handleChange}
-            InputProps={{ disableUnderline: true }}
+            slotProps={{ input: { disableUnderline: true } }}
             sx={{
               '& .MuiInputBase-root': { 
                 color: '#fff', 

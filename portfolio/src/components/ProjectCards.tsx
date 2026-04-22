@@ -1,9 +1,8 @@
-import { Box, Card, CardContent, Typography, Chip, Button, IconButton, Tooltip } from '@mui/material';
+import { Box, Card, CardContent, Typography} from '@mui/material';
 import { projects } from '../database/Projects';
 import { useNavigate } from 'react-router-dom';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import ArticleIcon from '@mui/icons-material/Article';
+
 
 const ProjectCards = () => {
   const navigate = useNavigate();
