@@ -53,7 +53,7 @@ const ConnectSection = () => {
           
           <Box sx={{ mt: 6 }}>
             <Typography sx={{ color: '#444', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.1em', mb: 1 }}>EMAIL ME DIRECTLY</Typography>
-            <Typography variant="h5" sx={{ color: '#00ff66', fontWeight: 500 }}>vijaypooniya.dev@gmail.com</Typography>
+            <Typography variant="h5" sx={{ color: '#00ff66', fontWeight: 500 }}>vijaypooniya14@gmail.com</Typography>
           </Box>
         </Box>
 
